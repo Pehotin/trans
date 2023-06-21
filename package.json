@@ -1,0 +1,19 @@
+{
+  "name": "@prender-company/trans",
+  "version": "1.0.2",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "play": "node ./playground/index.js",
+    "release": "standard-version && git push --follow-tags && npm publish"
+  },
+  "author": "Mark P",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/prender-company"
+  },
+  "devDependencies": {
+    "standard-version": "^9.5.0",
+    "@prender-company/parker": "^1.0.3"
+  }
+}

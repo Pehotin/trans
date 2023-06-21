@@ -1,0 +1,13 @@
+# VSCode ignores
+.vscode
+
+# temp files
+.DS_Store
+Thumbs.db
+Desktop.ini
+npm-debug.log
+lerna-debug.log
+
+# project ignores
+node_modules
+dist
