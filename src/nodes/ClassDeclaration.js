@@ -5,14 +5,12 @@ const Chunk = require('../Chunk')
 class ClassDeclaration extends Node {
   node = null
   parent = null
-  depth = 0
 
   constructor(node, parent) {
     super()
 
     this.node = node
     this.parent = parent
-    this.depth = parent.depth + 1
 
     this.getScope().addDeclaration(this.node.id.name, this.node, 'class')
   }
@@ -62,19 +60,37 @@ class ClassDeclaration extends Node {
   }
 
   _transpileUnsupported() {
-    console.log('test')
-    //TEMP
-    // let output = `class ${this.node.id.name} `
+    const chunk = new Chunk()
+    const children = traverse(this.node.body, this)
 
-    // if (this.node.superClass) {
-    //   output += `extends ${this.node.superClass.name} `
-    // }
+    chunk
+      .addMeta('class')
+      .add(`var ${this.node.id.name} = (function ()`)
+      .space()
+      .add('{')
+      .line(1)
+      .indentStart()
 
-    // output += '{'
-    // output += transpileChildren(this.node.body, this)
-    // output += '}'
+      if (children.has('constructor')) {
+        const constructor = children.first('methods', 'constructor')
 
-    // return output
+        constructor.injectAfterFirst('{', children.get('properties', 'instance'))
+        chunk.add(constructor)
+      } else {
+
+      }
+
+      return (
+        chunk
+          .children(children.get('methods', 'instance'))
+          .children(children.get('properties', 'static'))
+          .line(1)
+          .add(`return ${this.node.id.name}`)
+          .semicolon()
+          .line(1)
+          .indentEnd()
+          .add('}());')
+      )
   }
 }
 

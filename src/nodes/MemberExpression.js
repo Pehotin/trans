@@ -5,14 +5,12 @@ const Chunk = require('../Chunk')
 module.exports = class MemberExpression extends Node {
   node = null
   parent = null
-  depth = 0
 
   constructor(node, parent) {
     super()
 
     this.node = node
     this.parent = parent
-    this.depth = parent.depth + 1
   }
 
   transpile() {

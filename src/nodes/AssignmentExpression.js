@@ -5,14 +5,12 @@ const Chunk = require('../Chunk')
 module.exports = class AssigmentExpression extends Node {
   node = null
   parent = null
-  depth = 0
 
   constructor(node, parent) {
     super()
 
     this.node = node
     this.parent = parent
-    this.depth = parent.depth + 1
   }
 
   transpile() {
@@ -27,6 +25,8 @@ module.exports = class AssigmentExpression extends Node {
 
     if (this.node.right.type === 'Identifier') {
       chunk.add(this.node.right.name)
+    } else if (this.node.right.type === 'Literal') {
+      chunk.add(this.node.right.raw || this.node.right.value)
     }
 
     return chunk

@@ -4,14 +4,12 @@ const Chunk = require('../Chunk')
 module.exports = class PropertyDefinition extends Node {
   node = null
   parent = null
-  depth = 0
 
-  constructor(node, parent, depth) {
+  constructor(node, parent) {
     super()
 
     this.node = node
     this.parent = parent
-    this.depth = depth
 
     this.getScope().addProperty(
       parent.node.id.name,
@@ -51,6 +49,22 @@ module.exports = class PropertyDefinition extends Node {
       property.add(`this.${this.node.key.name}`)
     }
 
-    return property.space().addIf(this.node.value, `= ${this.node.value.raw || this.node.value.value}`).semicolon()
+    property.space()
+
+    if (this.node.value) {
+      if (this.node.value.type === 'Literal') {
+        if (this.node.value.raw !== undefined && this.node.value.raw !== null) {
+          property.add(`= ${this.node.value.raw}`)
+        } else {
+          property.add(`= ${this.node.value.value}`)
+        }
+      } else if (this.node.type === 'Identifier') {
+        property.add(`= ${this.node.value.name}`)
+      }
+    } else {
+      property.add('= undefined')
+    }
+
+    return property.semicolon().line()
   }
 }

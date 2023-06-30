@@ -1,9 +1,13 @@
-const { compileError } = require("./errors")
-
 class Chunk {
   strings = []
   _meta = []
   indent = 0
+
+  static options = null
+
+  static setOptions(options) {
+    Chunk.options = options
+  }
 
   constructor(string) {
     if (string) {
@@ -42,11 +46,7 @@ class Chunk {
   }
 
   _push(string) {
-    if (this.indent) {
-      this.strings.push('  ', string)
-    } else {
-      this.strings.push(string)
-    }
+    this.strings.push(string)
   }
 
   addIf(condition, string) {
@@ -60,7 +60,11 @@ class Chunk {
     const index = this.strings.indexOf(string)
 
     if (index > -1) {
-      this.strings.splice(index + 1, 0, chunks)
+      let inc = 1
+      while (this.strings[index + inc] === '\n' || this.strings[index + inc] === '--indentStart--') {
+        inc++
+      }
+      this.strings.splice(index + inc, 0, chunks)
     }
 
     return this
@@ -97,11 +101,13 @@ class Chunk {
   }
 
   indentStart() {
-    this.indent++
+    this._push('--indentStart--')
+    return this
   }
 
   indentEnd() {
-    this.indent--
+    this._push('--indentEnd--')
+    return this
   }
 
   line(number) {
@@ -134,23 +140,67 @@ class Chunk {
     return this
   }
 
-  toString() {
-    let output = ''
+  semicolonIf(condition) {
+    if (condition) {
+      this.semicolon()
+    }
+    return this
+  }
 
-    this.strings.forEach(string => {
-      if (string instanceof Chunk) {
-        output += string.toString()
-      } else if (Array.isArray(string)) {
-        string.forEach(val => {
-          if (val instanceof Chunk) {
-            output += string.toString()
-          } else {
-            output += string
-          }
-        })
-      } else {
-        output += string
+  toString(prevString) {
+    let output = ''
+    let self = this
+
+    function _doIndent(string, i, prevChunkLastString) {
+      const spaces = Chunk.options.indentSpaces
+
+      if (prevChunkLastString === '\n' || prevChunkLastString === '--indentStart--' || prevChunkLastString === '--indentEnd--') {
+        string = ' '.repeat(spaces * self.indent) + string
       }
+
+      return string
+    }
+
+    function _getPrevString(index, prevString) {
+      let prev = self.strings[index - 1]
+
+      if (prev instanceof Chunk) {
+        prev = prev.strings[prev.strings.length - 1]
+      } else if (Array.isArray(prev)) {
+        prev = prev[prev.length - 1]
+        prev = prev.strings[prev.strings.length - 1]
+      } else if (prev === undefined) {
+        prev = prevString
+      }
+      return prev
+    }
+
+    this.strings.forEach((string, i) => {
+      if (string === '--indentStart--') {
+        this.indent++
+        return
+      }
+
+      if (string === '--indentEnd--') {
+        this.indent--
+        return
+      }
+
+      if (string instanceof Chunk) {
+        string.indent = this.indent
+        output += string.toString(_getPrevString(i, prevString))
+        return
+      }
+
+      if (Array.isArray(string)) {
+        string.forEach(val => {
+          val.indent = this.indent
+          output += val.toString(_getPrevString(i, prevString))
+        })
+        return
+      }
+
+      output += _doIndent(string, i, _getPrevString(i, prevString))
     })
 
     return output

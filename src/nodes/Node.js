@@ -1,10 +1,5 @@
 class Node {
   static features = null
-  static options = null
-
-  static setOptions(options) {
-    Node.options = options
-  }
 
   ancestor(level) {
     let node = this
@@ -38,11 +33,6 @@ class Node {
     }
 
     return scope
-  }
-
-  indent(code) {
-    const spaces = Node.options.indentSpaces
-    return ' '.repeat(spaces * this.depth) + code
   }
 }
 

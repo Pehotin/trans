@@ -7,7 +7,9 @@ class Scope {
   methods = new Map()
 
   constructor(parent) {
-    this.parent = parent
+    if (parent) {
+      this.parent = parent
+    }
   }
 
   addDeclaration(name, node, kind) {

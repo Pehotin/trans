@@ -3,6 +3,8 @@ const Options = require('./Options')
 const Program = require('./nodes/Program')
 const support = require('./support')
 const { writeFileSync } = require('node:fs')
+const Chunk = require('./Chunk')
+const Node = require('./nodes/Node')
 class Trans {
   options = null
   instance = null
@@ -37,9 +39,10 @@ class Trans {
 
   transpile() {
     const features = support.makeFeaturesList(this.options.target)
-    const instance = (new Program(this.ast, features))
+    const instance = (new Program(this.ast))
 
-    Program.setOptions(this.options)
+    Node.features = features
+    Chunk.setOptions(this.options)
 
     const chunks = instance.transpile()
 
@@ -53,7 +56,7 @@ class Trans {
     chunks.forEach(chunk => {
       strings.push(chunk.toString())
     })
-
+    // console.log(util.inspect(strings, false, null, true))
     strings.forEach((string, i) => {
       if (i === strings.length - 1) {
         output += string + '\n'

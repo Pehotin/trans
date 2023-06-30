@@ -5,7 +5,7 @@ const util = require('util')
 const data = fs.readFileSync('./test.js', 'utf-8')
 
 Trans.pile(data, {
-  target: 'es6',
+  target: 'es3',
   output: './output.js'
 })
 

@@ -1,15 +1,22 @@
 class Test {
   test = 1
+  c
+
   static test2 = ''
+  static test3 = 123
 
   constructor(a, b) {
-    this.a = a
+    this.c = a
     this.b = b
   }
 
-  // init() {
-  //   console.log('init')
-  // }
+  init() {
+    this.g = k
+  }
+
+  get() {
+    this.kj = false
+  }
 }
 
 // class B {

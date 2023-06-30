@@ -5,14 +5,12 @@ const { traverse } = require('../utils')
 module.exports = class MethodDefinition extends Node {
   node = null
   parent = null
-  depth = 0
 
-  constructor(node, parent, depth) {
+  constructor(node, parent) {
     super()
 
     this.node = node
     this.parent = parent
-    this.depth = depth
 
     this.getScope().addProperty(
       parent.node.id.name,
@@ -43,7 +41,37 @@ module.exports = class MethodDefinition extends Node {
   }
 
   _transpileUnsupported() {
+    const chunk = new Chunk()
+    const children = traverse(this.node.value.body.body, this)
 
+    chunk.addMeta('methods')
+
+    if (this.node.key.name === 'constructor') {
+      chunk
+        .addMeta('constructor')
+        .add(`function ${this.parent.node.id.name}(`)
+    } else {
+      chunk.addMeta('instance')
+
+      chunk
+        .add(`${this.parent.node.id.name}.prototype.${this.node.key.name} = function (`)
+    }
+
+    this._params(chunk)
+
+    return (
+      chunk
+        .add(')')
+        .space()
+        .add('{')
+        .line()
+        .indentStart()
+        .children(children.all())
+        .indentEnd()
+        .add('}')
+        .semicolonIf(this.node.key.name !== 'constructor')
+        .line(2)
+    )
   }
 
   _transpileSupported() {
@@ -57,14 +85,7 @@ module.exports = class MethodDefinition extends Node {
     }
 
     method.add(`${this.node.key.name} (`)
-
-    this.node.value.params.forEach((param, i) => {
-      if (i === 0) {
-        method.add(`${param.name}`)
-      } else {
-        method.add(`, ${param.name}`)
-      }
-    })
+    this._params(method)
 
     method
       .add(')')
@@ -76,5 +97,15 @@ module.exports = class MethodDefinition extends Node {
       .add('}')
 
     return method
+  }
+
+  _params(chunk) {
+    this.node.value.params.forEach((param, i) => {
+      if (i === 0) {
+        chunk.add(`${param.name}`)
+      } else {
+        chunk.add(`, ${param.name}`)
+      }
+    })
   }
 }

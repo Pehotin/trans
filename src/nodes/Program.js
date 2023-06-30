@@ -5,15 +5,12 @@ const { traverse } = require('../utils')
 class Program extends Node {
   ast = null
   scope = null
-  depth = -1
 
-  constructor(ast, features) {
+  constructor(ast) {
     super()
 
     this.ast = ast
-    this.scope = new Scope(null)
-
-    Node.features = features
+    this.scope = new Scope()
   }
 
   transpile() {
