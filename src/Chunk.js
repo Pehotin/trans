@@ -19,7 +19,7 @@ class Chunk {
 
   addMeta(value) {
     if (Array.isArray(value)) {
-      this._meta = array
+      this._meta.push(...array)
     } else {
       this._meta.push(value)
     }

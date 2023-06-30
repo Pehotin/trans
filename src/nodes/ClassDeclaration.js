@@ -2,15 +2,9 @@ const { traverse } = require('../utils')
 const Node = require('./Node')
 
 class ClassDeclaration extends Node {
-  node = null
-  parent = null
+  meta = 'class'
 
-  constructor(node, parent) {
-    super()
-
-    this.node = node
-    this.parent = parent
-
+  init() {
     this.getScope().addDeclaration(this.node.id.name, this.node, 'class')
   }
 
@@ -25,35 +19,34 @@ class ClassDeclaration extends Node {
     const chunksCollection = traverse(this.node.body, this)
 
     classChunk
-      .addMeta('class')
       .add(`class ${this.node.id.name}`)
       .space()
       .addIf(this.node.superClass, `extends ${this.node.superClass?.name}`)
       .add('{')
       .line()
 
-    if (chunksCollection.has('properties', 'instance')) {
+    if (chunksCollection.has('property', 'instance')) {
       if (!chunksCollection.has('constructor')) {
           classChunk.indentStart()
           classChunk
             .add('constructor() {')
             .line()
-            .children(chunksCollection.get('properties', 'instance'))
+            .children(chunksCollection.get('property', 'instance'))
             .line()
             .add('}')
             .line()
           classChunk.indentEnd()
       } else {
-        const constructorChunk = chunksCollection.first('methods', 'constructor')
-        constructorChunk.injectAfterFirst('{', chunksCollection.get('properties', 'instance'))
+        const constructorChunk = chunksCollection.first('method', 'constructor')
+        constructorChunk.injectAfterFirst('{', chunksCollection.get('property', 'instance'))
         classChunk.add(constructorChunk)
       }
     }
 
     classChunk
       .add('}')
-      .lineIf(chunksCollection.has('properties', 'static'), 2)
-      .children(chunksCollection.get('properties', 'static'))
+      .lineIf(chunksCollection.has('property', 'static'), 2)
+      .children(chunksCollection.get('property', 'static'))
 
     return classChunk
   }
@@ -62,7 +55,6 @@ class ClassDeclaration extends Node {
     const children = traverse(this.node.body, this)
 
     chunk
-      .addMeta('class')
       .add(`var ${this.node.id.name} = (function ()`)
       .space()
       .add('{')
@@ -70,9 +62,9 @@ class ClassDeclaration extends Node {
       .indentStart()
 
       if (children.has('constructor')) {
-        const constructor = children.first('methods', 'constructor')
+        const constructor = children.first('method', 'constructor')
 
-        constructor.injectAfterFirst('{', children.get('properties', 'instance'))
+        constructor.injectAfterFirst('{', children.get('property', 'instance'))
         chunk.add(constructor)
       } else {
 
@@ -80,8 +72,8 @@ class ClassDeclaration extends Node {
 
       return (
         chunk
-          .children(children.get('methods', 'instance'))
-          .children(children.get('properties', 'static'))
+          .children(children.get('method', 'instance'))
+          .children(children.get('property', 'static'))
           .line(1)
           .add(`return ${this.node.id.name}`)
           .semicolon()

@@ -1,15 +1,7 @@
 const Node = require('./Node')
 
 module.exports = class MemberExpression extends Node {
-  node = null
-  parent = null
-
-  constructor(node, parent) {
-    super()
-
-    this.node = node
-    this.parent = parent
-  }
+  meta = 'member-expression'
 
   transpile(chunk) {
     return (

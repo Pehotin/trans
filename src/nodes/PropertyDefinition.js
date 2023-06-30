@@ -1,17 +1,11 @@
 const Node = require('./Node')
 
 module.exports = class PropertyDefinition extends Node {
-  node = null
-  parent = null
+  meta = 'property'
 
-  constructor(node, parent) {
-    super()
-
-    this.node = node
-    this.parent = parent
-
+  init() {
     this.getScope().addProperty(
-      parent.node.id.name,
+      this.parent.node.id.name,
       this.node,
       this.node.key.name,
       this.node.value,
@@ -37,8 +31,6 @@ module.exports = class PropertyDefinition extends Node {
   }
 
   _transpileUnsupported(property) {
-    property.addMeta('properties')
-
     if (this.node.static) {
       property.addMeta('static')
       property.add(`${this.parent.node.id.name}.${this.node.key.name}`)

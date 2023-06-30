@@ -3,17 +3,11 @@ const Chunk = require('../Chunk')
 const { traverse } = require('../utils')
 
 module.exports = class MethodDefinition extends Node {
-  node = null
-  parent = null
+  meta = 'method'
 
-  constructor(node, parent) {
-    super()
-
-    this.node = node
-    this.parent = parent
-
+  init() {
     this.getScope().addProperty(
-      parent.node.id.name,
+      this.parent.node.id.name,
       this.node,
       this.node.key.name,
       this.node.value
@@ -42,8 +36,6 @@ module.exports = class MethodDefinition extends Node {
 
   _transpileUnsupported(chunk) {
     const children = traverse(this.node.value.body.body, this)
-
-    chunk.addMeta('methods')
 
     if (this.node.key.name === 'constructor') {
       chunk
@@ -75,8 +67,6 @@ module.exports = class MethodDefinition extends Node {
 
   _transpileSupported(method) {
     const children = traverse(this.node.value.body.body, this)
-
-    method.addMeta('methods')
 
     if (this.node.key.name === 'constructor') {
       method.addMeta('constructor')

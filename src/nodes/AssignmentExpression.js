@@ -2,15 +2,7 @@ const { traverse } = require('../utils')
 const Node = require('./Node')
 
 module.exports = class AssigmentExpression extends Node {
-  node = null
-  parent = null
-
-  constructor(node, parent) {
-    super()
-
-    this.node = node
-    this.parent = parent
-  }
+  meta = 'assigment'
 
   transpile(chunk) {
     const children = traverse(this.node.left, this)
