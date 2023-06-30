@@ -39,14 +39,23 @@ class Trans {
 
   transpile() {
     const features = support.makeFeaturesList(this.options.target)
-    const instance = (new Program(this.ast))
+    let chunks
 
     Node.features = features
     Chunk.setOptions(this.options)
 
-    const chunks = instance.transpile()
+    const instance = new Program()
+    instance.node = this.ast
+    instance.parent = null
 
-    this.output = this._glue(chunks)
+    instance.init()
+
+    try {
+      chunks = instance.transpile()
+      this.output = this._glue(chunks)
+    } catch (error) {
+      console.log(error.toString())
+    }
   }
 
   _glue(chunks) {
@@ -56,14 +65,13 @@ class Trans {
     chunks.forEach(chunk => {
       strings.push(chunk.toString())
     })
-    // console.log(util.inspect(strings, false, null, true))
+
     strings.forEach((string, i) => {
       if (i === strings.length - 1) {
         output += string + '\n'
       } else {
         output += string + '\n\n'
       }
-
     })
 
     return output

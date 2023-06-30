@@ -5,7 +5,8 @@ class ClassDeclaration extends Node {
   meta = 'class'
 
   init() {
-    this.getScope().addDeclaration(this.node.id.name, this.node, 'class')
+    this.createScope()
+    this.parentScope.addDeclaration(this.node.id.name, this.node, 'class')
   }
 
   transpile(chunk) {

@@ -6,12 +6,8 @@ module.exports = class MethodDefinition extends Node {
   meta = 'method'
 
   init() {
-    this.getScope().addProperty(
-      this.parent.node.id.name,
-      this.node,
-      this.node.key.name,
-      this.node.value
-    )
+    this.createScope()
+    this.parentScope.addDeclaration(this.node.key.name, this.node, 'method')
   }
 
   transpile(chunk) {

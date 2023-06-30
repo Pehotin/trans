@@ -19,6 +19,6 @@ class Test {
   }
 }
 
-// class B {
+// class Test {
 
 // }

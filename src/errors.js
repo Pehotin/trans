@@ -25,11 +25,7 @@ class CompileError extends Error {
 }
 
 function compileError(msg, node) {
-  try {
-    throw new CompileError(msg, node)
-  } catch (error) {
-    console.log(error.toString())
-  }
+  throw new CompileError(msg, node)
 }
 
 module.exports = { compileError }

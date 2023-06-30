@@ -1,20 +1,13 @@
 const Node = require('./Node')
-const Scope = require('../Scope')
 const { traverse } = require('../utils')
 
 class Program extends Node {
-  ast = null
-  scope = null
-
-  constructor(ast) {
-    super()
-
-    this.ast = ast
-    this.scope = new Scope()
+  init() {
+    this.createScope()
   }
 
   transpile() {
-    const collection = traverse(this.ast.body, this)
+    const collection = traverse(this.node.body, this)
     return collection.all()
   }
 }
