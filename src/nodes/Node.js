@@ -12,7 +12,7 @@ class Node {
 		return node
   }
 
-  features() {
+  get features() {
     return Node.features
   }
 

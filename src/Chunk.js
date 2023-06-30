@@ -9,10 +9,7 @@ class Chunk {
     Chunk.options = options
   }
 
-  constructor(string) {
-    if (string) {
-      this.strings.push(string)
-    }
+  constructor() {
     return this
   }
 

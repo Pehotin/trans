@@ -20,28 +20,27 @@ module.exports = class MethodDefinition extends Node {
     )
   }
 
-  transpile() {
+  transpile(chunk) {
     if (
       (this.node.static || this.node.private || this.node.computed)
-      && this.features().includes('instancePublicPrivateFieldsMethodsAccessors')
-      && this.features().includes('staticPublicPrivateFieldsMethodsAccessors')
+      && this.features.includes('instancePublicPrivateFieldsMethodsAccessors')
+      && this.features.includes('staticPublicPrivateFieldsMethodsAccessors')
     ) {
-      return this._transpileStaticPrivateComputedSupported()
+      return this._transpileStaticPrivateComputedSupported(chunk)
     }
 
-    if (!this.node.static && !this.node.private && !this.node.computed && !this.features().includes('conciseMethodProperty')) {
-      return this._transpileUnsupported()
+    if (!this.node.static && !this.node.private && !this.node.computed && !this.features.includes('conciseMethodProperty')) {
+      return this._transpileUnsupported(chunk)
     } else {
-      return this._transpileSupported()
+      return this._transpileSupported(chunk)
     }
   }
 
-  _transpileStaticPrivateComputedSupported() {
+  _transpileStaticPrivateComputedSupported(chunk) {
 
   }
 
-  _transpileUnsupported() {
-    const chunk = new Chunk()
+  _transpileUnsupported(chunk) {
     const children = traverse(this.node.value.body.body, this)
 
     chunk.addMeta('methods')
@@ -74,8 +73,7 @@ module.exports = class MethodDefinition extends Node {
     )
   }
 
-  _transpileSupported() {
-    const method = new Chunk()
+  _transpileSupported(method) {
     const children = traverse(this.node.value.body.body, this)
 
     method.addMeta('methods')

@@ -1,6 +1,4 @@
-const { traverse } = require('../utils')
 const Node = require('./Node')
-const Chunk = require('../Chunk')
 
 module.exports = class MemberExpression extends Node {
   node = null
@@ -13,9 +11,7 @@ module.exports = class MemberExpression extends Node {
     this.parent = parent
   }
 
-  transpile() {
-    const chunk = new Chunk()
-
+  transpile(chunk) {
     return (
       chunk
         .addIf(this.node.object.type === 'ThisExpression', 'this')

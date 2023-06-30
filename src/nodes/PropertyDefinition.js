@@ -1,5 +1,4 @@
 const Node = require('./Node')
-const Chunk = require('../Chunk')
 
 module.exports = class PropertyDefinition extends Node {
   node = null
@@ -20,25 +19,24 @@ module.exports = class PropertyDefinition extends Node {
     )
   }
 
-  transpile() {
-    if (this.features().includes('instancePublicPrivateFieldsMethodsAccessors')) {
-      return this._transpileSupported()
+  transpile(chunk) {
+    if (this.features.includes('instancePublicPrivateFieldsMethodsAccessors')) {
+      return this._transpileSupported(chunk)
     }
-    return this._transpileUnsupported()
+    return this._transpileUnsupported(chunk)
   }
 
-  _transpileSupported() {
-    let output = `${this.node.key.name}`
+  _transpileSupported(chunk) {
+    // let output = `${this.node.key.name}`
 
-    if (this.node.value) {
-      output += ` = ${this.node.value.raw || this.node.value.value}`
-    }
+    // if (this.node.value) {
+    //   output += ` = ${this.node.value.raw || this.node.value.value}`
+    // }
 
-    return output
+    // return output
   }
 
-  _transpileUnsupported() {
-    const property = new Chunk()
+  _transpileUnsupported(property) {
     property.addMeta('properties')
 
     if (this.node.static) {

@@ -1,6 +1,5 @@
 const { traverse } = require('../utils')
 const Node = require('./Node')
-const Chunk = require('../Chunk')
 
 class ClassDeclaration extends Node {
   node = null
@@ -15,19 +14,19 @@ class ClassDeclaration extends Node {
     this.getScope().addDeclaration(this.node.id.name, this.node, 'class')
   }
 
-  transpile() {
-    if (this.features().includes('classes')) {
-      return this._transpileSupported()
+  transpile(chunk) {
+    if (this.features.includes('classes')) {
+      return this._transpileSupported(chunk)
     }
-    return this._transpileUnsupported()
+    return this._transpileUnsupported(chunk)
   }
 
-  _transpileSupported() {
-    const classChunk = new Chunk(`class ${this.node.id.name}`)
+  _transpileSupported(classChunk) {
     const chunksCollection = traverse(this.node.body, this)
 
     classChunk
       .addMeta('class')
+      .add(`class ${this.node.id.name}`)
       .space()
       .addIf(this.node.superClass, `extends ${this.node.superClass?.name}`)
       .add('{')
@@ -59,8 +58,7 @@ class ClassDeclaration extends Node {
     return classChunk
   }
 
-  _transpileUnsupported() {
-    const chunk = new Chunk()
+  _transpileUnsupported(chunk) {
     const children = traverse(this.node.body, this)
 
     chunk
