@@ -31,6 +31,10 @@ class Chunk {
     return this
   }
 
+  removeLast() {
+    this.strings.pop()
+  }
+
   children(array) {
     if (!Array.isArray(array)) {
       throw new Error('Chunk: children argument not an array')

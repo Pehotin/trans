@@ -1,11 +1,10 @@
-const { traverse } = require('../utils')
 const Node = require('./Node')
 
 module.exports = class AssigmentExpression extends Node {
   meta = 'assigment'
 
   transpile(chunk) {
-    const children = traverse(this.node.left, this)
+    const children = this.traverse(this.node.left)
 
     chunk
       .children(children.all())

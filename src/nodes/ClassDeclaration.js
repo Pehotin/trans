@@ -1,4 +1,3 @@
-const { traverse } = require('../utils')
 const Node = require('./Node')
 
 class ClassDeclaration extends Node {
@@ -17,7 +16,7 @@ class ClassDeclaration extends Node {
   }
 
   _transpileSupported(classChunk) {
-    const chunksCollection = traverse(this.node.body, this)
+    const chunksCollection = this.traverse(this.node.body)
 
     classChunk
       .add(`class ${this.node.id.name}`)
@@ -53,7 +52,7 @@ class ClassDeclaration extends Node {
   }
 
   _transpileUnsupported(chunk) {
-    const children = traverse(this.node.body, this)
+    const children = this.traverse(this.node.body)
 
     chunk
       .add(`var ${this.node.id.name} = (function ()`)

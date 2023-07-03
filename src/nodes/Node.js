@@ -1,4 +1,6 @@
 const Scope = require('../Scope')
+const Chunk = require('../Chunk')
+const ChunkCollection = require('../ChunkCollection')
 
 class Node {
   static features = null
@@ -46,6 +48,47 @@ class Node {
   get parentScope() {
     if (!this.parent) return null
     return this.parent.scope
+  }
+
+  traverse(node) {
+    const collection = new ChunkCollection()
+    const nodeClasses = require('./index')
+    const parent = this
+    let nodeInstance
+
+    function addMeta(node, type) {
+      if (!node.meta) {
+        throw new Error(`Node required to have meta property: ${type}`)
+      }
+      const chunk = node.transpile(new Chunk())
+      chunk.addMeta(node.meta)
+      collection.add(chunk)
+    }
+
+    if (Array.isArray(node)) {
+      for (let i = 0; i < node.length; i++) {
+        nodeInstance = new nodeClasses[node[i].type]()
+        nodeInstance.node = node[i]
+        nodeInstance.parent = parent
+
+        if (nodeInstance.init) {
+          nodeInstance.init()
+        }
+
+        addMeta(nodeInstance, node[i].type)
+      }
+    } else {
+      nodeInstance = new nodeClasses[node.type]()
+      nodeInstance.node = node
+      nodeInstance.parent = parent
+
+      if (nodeInstance.init) {
+        nodeInstance.init()
+      }
+
+      addMeta(nodeInstance, node.type)
+    }
+    return collection
   }
 }
 

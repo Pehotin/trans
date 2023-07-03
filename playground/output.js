@@ -1,7 +1,12 @@
 var Test = (function () {
-  function Test(a, b) {
+  function Test(a) {
     this.test = 1;
     this.c = undefined;
+    if (a === void 0) { a = 2; }
+    var b = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+      b[_i - 1] = arguments[_i];    
+    }
     this.c = a;
     this.b = b;
   }
@@ -19,3 +24,15 @@ var Test = (function () {
   
   return Test;
 }());
+
+{
+}
+
+function name(a, c) {
+  if (a === void 0) { a = '123'; }
+  if (c === void 0) { c = false; }
+  var b = [];
+  for (var _i = 1; _i < arguments.length; _i++) {
+    b[_i - 1] = arguments[_i];  
+  }
+}

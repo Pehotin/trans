@@ -1,6 +1,5 @@
+const { transpileParams } = require('../utils')
 const Node = require('./Node')
-const Chunk = require('../Chunk')
-const { traverse } = require('../utils')
 
 module.exports = class MethodDefinition extends Node {
   meta = 'method'
@@ -31,7 +30,8 @@ module.exports = class MethodDefinition extends Node {
   }
 
   _transpileUnsupported(chunk) {
-    const children = traverse(this.node.value.body.body, this)
+    const children = this.traverse(this.node.value.body.body)
+    const extras = []
 
     if (this.node.key.name === 'constructor') {
       chunk
@@ -44,25 +44,31 @@ module.exports = class MethodDefinition extends Node {
         .add(`${this.parent.node.id.name}.prototype.${this.node.key.name} = function (`)
     }
 
-    this._params(chunk)
+    transpileParams(this.node.value.params, chunk, this, extras)
 
-    return (
-      chunk
-        .add(')')
-        .space()
-        .add('{')
-        .line()
-        .indentStart()
-        .children(children.all())
-        .indentEnd()
-        .add('}')
-        .semicolonIf(this.node.key.name !== 'constructor')
-        .line(2)
-    )
+    chunk
+      .add(')')
+      .space()
+      .add('{')
+      .line()
+      .indentStart()
+
+    if (extras.length > 0) {
+      chunk.children(extras)
+    }
+
+    chunk
+      .children(children.all())
+      .indentEnd()
+      .add('}')
+      .semicolonIf(this.node.key.name !== 'constructor')
+      .line(2)
+
+    return chunk
   }
 
   _transpileSupported(method) {
-    const children = traverse(this.node.value.body.body, this)
+    const children = this.traverse(this.node.value.body.body)
 
     if (this.node.key.name === 'constructor') {
       method.addMeta('constructor')
@@ -81,15 +87,5 @@ module.exports = class MethodDefinition extends Node {
       .add('}')
 
     return method
-  }
-
-  _params(chunk) {
-    this.node.value.params.forEach((param, i) => {
-      if (i === 0) {
-        chunk.add(`${param.name}`)
-      } else {
-        chunk.add(`, ${param.name}`)
-      }
-    })
   }
 }

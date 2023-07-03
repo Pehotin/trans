@@ -1,42 +1,68 @@
-module.exports.traverse = function(node, parent) {
-  const collection = new ChunkCollection()
-  let nodeInstance
+const Chunk = require('./Chunk')
 
-  function addMeta(node, type) {
-    if (!node.meta) {
-      throw new Error(`Node required to have meta property: ${type}`)
-    }
-    const chunk = node.transpile(new Chunk())
-    chunk.addMeta(node.meta)
-    collection.add(chunk)
-  }
-
-  if (Array.isArray(node)) {
-    for (let i = 0; i < node.length; i++) {
-      nodeInstance = new nodeClasses[node[i].type]()
-      nodeInstance.node = node[i]
-      nodeInstance.parent = parent
-
-      if (nodeInstance.init) {
-        nodeInstance.init()
+module.exports.transpileParams = function(nodes, chunk, node, extra) {
+  if (node.features.includes('defaultParameter')) {
+    nodes.forEach((param, i) => {
+      if (i !== 0) {
+        chunk.add(', ')
       }
 
-      addMeta(nodeInstance, node[i].type)
-    }
+      if (param.type === 'Identifier') {
+        chunk.add(`${param.name}`)
+      } else if (param.type === 'AssignmentPattern') {
+        chunk
+          .add(`${param.left.name}`)
+          .space()
+          .add('=')
+          .space()
+          .children(node.traverse(param.right).all())
+      } else if (param.type === 'RestElement') {
+        chunk
+          .add('...')
+          .add(param.argument.name)
+      }
+    })
   } else {
-    nodeInstance = new nodeClasses[node.type]()
-    nodeInstance.node = node
-    nodeInstance.parent = parent
+    nodes.forEach((param, i) => {
+      if (i !== 0) {
+        chunk.add(', ')
+      }
 
-    if (nodeInstance.init) {
-      nodeInstance.init()
-    }
+      if (param.type === 'Identifier') {
+        chunk.add(`${param.name}`)
+      } else if (param.type === 'AssignmentPattern') {
+        chunk.add(`${param.left.name}`)
 
-    addMeta(nodeInstance, node.type)
+        const defaultChunk = new Chunk()
+        defaultChunk
+          .add(`if (${param.left.name} === void 0) { ${param.left.name} = `)
+          .children(node.traverse(param.right).all())
+          .semicolon()
+          .space()
+          .add('}')
+          .line()
+
+        extra.push(defaultChunk)
+      } else if (param.type === 'RestElement') {
+        chunk.removeLast()
+
+        const defaultChunk = new Chunk()
+        defaultChunk
+          .add(`var ${param.argument.name} = [];`)
+          .line()
+          .add(`for (var _i = 1; _i < arguments.length; _i++) {`)
+          .line()
+          .indentStart()
+          .add(`${param.argument.name}[_i - 1] = arguments[_i];`)
+          .indentEnd()
+          .line()
+          .add('}')
+          .line()
+
+        extra.push(defaultChunk)
+      }
+    })
   }
-  return collection
-}
 
-const Chunk = require('./Chunk')
-const ChunkCollection = require('./ChunkCollection')
-const nodeClasses = require('./nodes')
+  return chunk
+}

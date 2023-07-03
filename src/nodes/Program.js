@@ -1,5 +1,4 @@
 const Node = require('./Node')
-const { traverse } = require('../utils')
 
 class Program extends Node {
   init() {
@@ -7,7 +6,7 @@ class Program extends Node {
   }
 
   transpile() {
-    const collection = traverse(this.node.body, this)
+    const collection = this.traverse(this.node.body)
     return collection.all()
   }
 }

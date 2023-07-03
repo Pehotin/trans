@@ -5,7 +5,7 @@ class Test {
   static test2 = ''
   static test3 = 123
 
-  constructor(a, b) {
+  constructor(a = 2, ...b) {
     this.c = a
     this.b = b
   }
@@ -19,6 +19,10 @@ class Test {
   }
 }
 
-// class Test {
+{
 
-// }
+}
+
+function name(a = '123', c = false, ...b) {
+
+}
