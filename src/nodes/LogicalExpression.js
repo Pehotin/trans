@@ -1,3 +1,5 @@
+const Chunk = require('../Chunk')
+const { generateVariableName } = require('../utils')
 const Node = require('./Node')
 
 module.exports = class LogicalExpression extends Node {
@@ -6,6 +8,32 @@ module.exports = class LogicalExpression extends Node {
   transpile(chunk) {
     const leftCollection = this.traverse(this.node.left)
     const rightCollection = this.traverse(this.node.right)
+
+    if (this.node.operator === '??' && !this.features.includes('nullishCoalescing')) {
+      if (this.node.left.type === 'Identifier') {
+        return (
+          chunk
+            .add(`${this.node.left.name} !== null && ${this.node.left.name} !== void 0 ? ${this.node.left.name} : `)
+            .children(rightCollection.all())
+        )
+      }
+
+      const node = this.parent.nodeWithScope
+      const scope = node.scope
+      const varName = generateVariableName(scope)
+
+      scope.addDeclaration(varName, null, 'var')
+      node.prepend((new Chunk()).addMeta('variable').add(`var ${varName};`).line())
+
+      return (
+        chunk
+          .add(`(${varName} = `)
+          .children(leftCollection.all())
+          .add(') ')
+          .add(`!== null && ${varName} !== void 0 ? ${varName} : `)
+          .children(rightCollection.all())
+      )
+    }
 
     return (
       chunk

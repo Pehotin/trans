@@ -66,3 +66,13 @@ module.exports.transpileParams = function(nodes, chunk, node, extra) {
 
   return chunk
 }
+
+module.exports.generateVariableName = function(scope) {
+  let charCode = 97
+
+  while (scope.contains('_' + String.fromCharCode(charCode))){
+    charCode++
+  }
+
+  return '_' + String.fromCharCode(charCode)
+}

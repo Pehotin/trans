@@ -28,6 +28,7 @@ module.exports = class FunctionDeclaration extends Node {
       .add('{')
       .line()
       .indentStart()
+      .prepend()
 
     if (extras.length > 0) {
       chunk.children(extras)
@@ -35,6 +36,7 @@ module.exports = class FunctionDeclaration extends Node {
 
     chunk
       .children(children.all())
+      .append()
       .indentEnd()
       .add('}')
 

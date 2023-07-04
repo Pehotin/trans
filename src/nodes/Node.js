@@ -52,6 +52,14 @@ class Node {
     return this.parent.nodeWithScope
   }
 
+  prepend(chunk) {
+    this.chunk._prepend.push(chunk)
+  }
+
+  append(chunk) {
+    this.chunk._append.push(chunk)
+  }
+
   traverse(node) {
     const collection = new ChunkCollection()
     const nodeClasses = require('./index')

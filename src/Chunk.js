@@ -1,5 +1,7 @@
 class Chunk {
   strings = []
+  _prepend = []
+  _append = []
   _meta = []
   indent = 0
 
@@ -111,6 +113,16 @@ class Chunk {
     return this
   }
 
+  prepend() {
+    this._push('--prepend--')
+    return this
+  }
+
+  append() {
+    this._push('--append--')
+    return this
+  }
+
   line(number) {
     if (!number) {
       this.strings.push('\n')
@@ -155,7 +167,13 @@ class Chunk {
     function _doIndent(string, i, prevChunkLastString) {
       const spaces = Chunk.options.indentSpaces
 
-      if (prevChunkLastString === '\n' || prevChunkLastString === '--indentStart--' || prevChunkLastString === '--indentEnd--') {
+      if (
+        prevChunkLastString === '\n'              ||
+        prevChunkLastString === '--prepend--'     ||
+        prevChunkLastString === '--append--'      ||
+        prevChunkLastString === '--indentStart--' ||
+        prevChunkLastString === '--indentEnd--'
+      ) {
         string = ' '.repeat(spaces * self.indent) + string
       }
 
@@ -184,6 +202,22 @@ class Chunk {
 
       if (string === '--indentEnd--') {
         this.indent--
+        return
+      }
+
+      if (string === '--prepend--') {
+        this._prepend.forEach(chunk => {
+          chunk.indent = this.indent
+          output += chunk.toString(_getPrevString(i, prevString))
+        })
+        return
+      }
+
+      if (string === '--append--') {
+        this._append.forEach(chunk => {
+          chunk.indent = this.indent
+          output += chunk.toString(_getPrevString(i, prevString))
+        })
         return
       }
 

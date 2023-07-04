@@ -6,12 +6,12 @@ class Test {
   static test3 = 123
 
   constructor(a = 2, ...b) {
-    this.c = a
-    this.b = b
+    // this.c = a
+    // this.b = b
   }
 
   init() {
-    this.g = k
+    // this.g = k
   }
 
   get() {
@@ -24,5 +24,6 @@ class Test {
 }
 
 function name(a = '123', c = false, ...b) {
-  test ?? 1 + 2
+  h + 'b' ?? 1 + 2
+  test?.v?.c
 }

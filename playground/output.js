@@ -7,12 +7,9 @@ var Test = (function () {
     for (var _i = 1; _i < arguments.length; _i++) {
       b[_i - 1] = arguments[_i];    
     }
-    this.c = a;
-    this.b = b;
   }
   
   Test.prototype.init = function () {
-    this.g = k;
   };
   
   Test.prototype.get = function () {
@@ -29,11 +26,14 @@ var Test = (function () {
 }
 
 function name(a, c) {
+  var _a;
+  var _b;
   if (a === void 0) { a = '123'; }
   if (c === void 0) { c = false; }
   var b = [];
   for (var _i = 1; _i < arguments.length; _i++) {
     b[_i - 1] = arguments[_i];  
   }
-  test ?? 1 + 2;
+  (_a = h + 'b') !== null && _a !== void 0 ? _a : 1 + 2;
+  (_b = test === null && test === void 0 ? void 0 : test.v) === null && _b === void 0 ? void 0 : _b.c;
 }
