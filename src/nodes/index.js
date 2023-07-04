@@ -7,6 +7,12 @@ const MemberExpression = require('./MemberExpression')
 const BlockStatement = require('./BlockStatement')
 const FunctionDeclaration = require('./FunctionDeclaration')
 const Literal = require('./Literal')
+const BinaryExpression = require('./BinaryExpression')
+const LogicalExpression = require('./LogicalExpression')
+const UnaryExpression = require('./UnaryExpression')
+const UpdateExpression = require('./UpdateExpression')
+const ConditionalExpression = require('./ConditionalExpression')
+const Identifier = require('./Identifier')
 
 module.exports = {
   ClassDeclaration,
@@ -17,5 +23,11 @@ module.exports = {
   AssignmentExpression,
   MemberExpression,
   BlockStatement,
-  Literal
+  Literal,
+  BinaryExpression,
+  LogicalExpression,
+  UnaryExpression,
+  UpdateExpression,
+  ConditionalExpression,
+  Identifier
 }

@@ -45,9 +45,11 @@ class Node {
     this._scope = val
   }
 
-  get parentScope() {
-    if (!this.parent) return null
-    return this.parent.scope
+  get nodeWithScope() {
+    if (this._scope) return this
+    if (!this.parent) return this
+
+    return this.parent.nodeWithScope
   }
 
   traverse(node) {
@@ -60,7 +62,9 @@ class Node {
       if (!node.meta) {
         throw new Error(`Node required to have meta property: ${type}`)
       }
-      const chunk = node.transpile(new Chunk())
+      let chunk = new Chunk()
+      node.chunk = chunk
+      chunk = node.transpile(chunk)
       chunk.addMeta(node.meta)
       collection.add(chunk)
     }
@@ -78,15 +82,19 @@ class Node {
         addMeta(nodeInstance, node[i].type)
       }
     } else {
-      nodeInstance = new nodeClasses[node.type]()
-      nodeInstance.node = node
-      nodeInstance.parent = parent
+      try {
+        nodeInstance = new nodeClasses[node.type]()
+        nodeInstance.node = node
+        nodeInstance.parent = parent
 
-      if (nodeInstance.init) {
-        nodeInstance.init()
+        if (nodeInstance.init) {
+          nodeInstance.init()
+        }
+
+        addMeta(nodeInstance, node.type)
+      } catch (error) {
+        throw new Error(error + ': ' + node.type)
       }
-
-      addMeta(nodeInstance, node.type)
     }
     return collection
   }

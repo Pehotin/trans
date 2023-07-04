@@ -35,4 +35,5 @@ function name(a, c) {
   for (var _i = 1; _i < arguments.length; _i++) {
     b[_i - 1] = arguments[_i];  
   }
+  test ?? 1 + 2;
 }

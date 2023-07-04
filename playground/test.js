@@ -24,5 +24,5 @@ class Test {
 }
 
 function name(a = '123', c = false, ...b) {
-
+  test ?? 1 + 2
 }

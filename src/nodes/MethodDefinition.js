@@ -6,7 +6,7 @@ module.exports = class MethodDefinition extends Node {
 
   init() {
     this.createScope()
-    this.parentScope.addDeclaration(this.node.key.name, this.node, 'method')
+    this.parent.scope.addDeclaration(this.node.key.name, this.node, 'method')
   }
 
   transpile(chunk) {

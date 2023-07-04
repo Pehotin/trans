@@ -5,7 +5,7 @@ class ClassDeclaration extends Node {
 
   init() {
     this.createScope()
-    this.parentScope.addDeclaration(this.node.id.name, this.node, 'class')
+    this.parent.scope.addDeclaration(this.node.id.name, this.node, 'class')
   }
 
   transpile(chunk) {

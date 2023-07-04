@@ -4,7 +4,7 @@ module.exports = class PropertyDefinition extends Node {
   meta = 'property'
 
   init() {
-    this.scope.addDeclaration(this.node.key.name, this.node, 'property')
+    this.parent.scope.addDeclaration(this.node.key.name, this.node, 'property')
   }
 
   transpile(chunk) {
