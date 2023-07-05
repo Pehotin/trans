@@ -33,8 +33,15 @@ class Chunk {
     return this
   }
 
-  removeLast() {
-    this.strings.pop()
+  removeLast(number) {
+    if (number) {
+      for (let i = 0; i < number; i++) {
+        this.strings.pop()
+      }
+    } else {
+      this.strings.pop()
+    }
+    return this
   }
 
   children(array) {
@@ -68,36 +75,6 @@ class Chunk {
         inc++
       }
       this.strings.splice(index + inc, 0, chunks)
-    }
-
-    return this
-  }
-
-  injectAfterLast(string) {
-    const index = this.strings.lastIndexOf(string)
-
-    if (index > -1) {
-      this.strings.splice(index, 0, string)
-    }
-
-    return this
-  }
-
-  injectBeforeFirst(string) {
-    const index = this.strings.indexOf(string)
-
-    if (index > -1) {
-      this.strings.splice(index - 1, 0, string)
-    }
-
-    return this
-  }
-
-  injectBeforeLast(string) {
-    const index = this.strings.lastIndexOf(string)
-
-    if (index > -1) {
-      this.strings.splice(index - 1, 0, string)
     }
 
     return this

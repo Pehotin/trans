@@ -77,6 +77,17 @@ class ChunkCollection {
     return this.get(...args)[0]
   }
 
+  last() {
+    const array = this.all()
+    const chunk = array[array.length - 1]
+
+    if (Array.isArray(chunk)) {
+      return chunk[0]
+    }
+
+    return chunk
+  }
+
   all() {
     const array = Array.from(this.chunks.values())
 

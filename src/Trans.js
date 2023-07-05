@@ -30,14 +30,14 @@ class Trans {
     }
 
     this.instance = new this(ast, options)
-    this.instance.transpile()
+    this.instance._transpile()
 
     if (this.instance.options.output) {
       writeFileSync(this.instance.options.output, this.instance.output)
     }
   }
 
-  transpile() {
+  _transpile() {
     const features = support.makeFeaturesList(this.options.target)
 
     Node.features = features
@@ -46,21 +46,21 @@ class Trans {
     const instance = new Program()
     instance.node = this.ast
     instance.parent = null
-
     instance.init()
 
     try {
       let chunk = new Chunk()
       instance.chunk = chunk
 
-      this.output = this._glue(instance.transpile(chunk))
+      const b = instance.transpile(chunk)
+
+      // const util = require('util')
+      // console.log(util.inspect(b, false, null, true))
+
+      this.output = b.toString()
     } catch (error) {
       console.log(error.toString())
     }
-  }
-
-  _glue(chunk) {
-    return chunk.toString()
   }
 }
 

@@ -79,6 +79,10 @@ class Node {
 
     if (Array.isArray(node)) {
       for (let i = 0; i < node.length; i++) {
+        if (node[i].type === 'EmptyStatement') {
+          continue
+        }
+
         nodeInstance = new nodeClasses[node[i].type]()
         nodeInstance.node = node[i]
         nodeInstance.parent = parent
@@ -91,6 +95,10 @@ class Node {
       }
     } else {
       try {
+        if (node.type === 'EmptyStatement') {
+          return collection
+        }
+
         nodeInstance = new nodeClasses[node.type]()
         nodeInstance.node = node
         nodeInstance.parent = parent

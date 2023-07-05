@@ -15,6 +15,10 @@ const ConditionalExpression = require('./ConditionalExpression')
 const ThisExpression = require('./ThisExpression')
 const CallExpression = require('./CallExpression')
 const Identifier = require('./Identifier')
+const IfStatement = require('./IfStatement')
+const WhileStatement = require('./WhileStatement')
+const ReturnStatement = require('./ReturnStatement')
+const EmptyStatement = require('./EmptyStatement')
 
 module.exports = {
   ClassDeclaration,
@@ -33,5 +37,9 @@ module.exports = {
   ConditionalExpression,
   CallExpression,
   ThisExpression,
-  Identifier
+  Identifier,
+  IfStatement,
+  WhileStatement,
+  ReturnStatement,
+  EmptyStatement
 }
