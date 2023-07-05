@@ -5,9 +5,14 @@ class Program extends Node {
     this.createScope()
   }
 
-  transpile() {
+  transpile(chunk) {
     const collection = this.traverse(this.node.body)
-    return collection.all()
+    return (
+      chunk
+        .prepend()
+        .children(collection.all())
+        .append()
+    )
   }
 }
 

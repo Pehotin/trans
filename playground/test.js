@@ -25,5 +25,10 @@ class Test {
 
 function name(a = '123', c = false, ...b) {
   h + 'b' ?? 1 + 2
-  test?.v?.c
+  test?.c[2 + 3]
+
 }
+
+this?.func()
+
+this ?? 'tt'

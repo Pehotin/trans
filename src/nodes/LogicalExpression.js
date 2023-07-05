@@ -10,10 +10,10 @@ module.exports = class LogicalExpression extends Node {
     const rightCollection = this.traverse(this.node.right)
 
     if (this.node.operator === '??' && !this.features.includes('nullishCoalescing')) {
-      if (this.node.left.type === 'Identifier') {
+      if (this.node.left.type === 'Identifier' || this.node.left.type === 'ThisExpression') {
         return (
           chunk
-            .add(`${this.node.left.name} !== null && ${this.node.left.name} !== void 0 ? ${this.node.left.name} : `)
+            .add(`${this.node.left.name || 'this'} !== null && ${this.node.left.name || 'this'} !== void 0 ? ${this.node.left.name || 'this'} : `)
             .children(rightCollection.all())
         )
       }

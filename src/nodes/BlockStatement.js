@@ -17,6 +17,7 @@ module.exports = class BlockStatement extends Node {
         .children(children.all())
         .indentEnd()
         .add('}')
+        .line(2)
     )
   }
 }

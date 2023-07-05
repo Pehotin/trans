@@ -48,7 +48,7 @@ class ClassDeclaration extends Node {
       .lineIf(chunksCollection.has('property', 'static'), 2)
       .children(chunksCollection.get('property', 'static'))
 
-    return classChunk
+    return classChunk.line(2)
   }
 
   _transpileUnsupported(chunk) {
@@ -80,6 +80,7 @@ class ClassDeclaration extends Node {
           .line(1)
           .indentEnd()
           .add('}());')
+          .line(2)
       )
   }
 }

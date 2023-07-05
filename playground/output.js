@@ -27,7 +27,6 @@ var Test = (function () {
 
 function name(a, c) {
   var _a;
-  var _b;
   if (a === void 0) { a = '123'; }
   if (c === void 0) { c = false; }
   var b = [];
@@ -35,5 +34,8 @@ function name(a, c) {
     b[_i - 1] = arguments[_i];  
   }
   (_a = h + 'b') !== null && _a !== void 0 ? _a : 1 + 2;
-  (_b = test === null && test === void 0 ? void 0 : test.v) === null && _b === void 0 ? void 0 : _b.c;
+  test === null && test === void 0 ? void 0 : test.c[2 + 3];
 }
+
+this === null && this === void 0 ? void 0 : this.func();
+this !== null && this !== void 0 ? this : 'tt';

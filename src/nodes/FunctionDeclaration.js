@@ -39,6 +39,7 @@ module.exports = class FunctionDeclaration extends Node {
       .append()
       .indentEnd()
       .add('}')
+      .line(2)
 
     return chunk
   }

@@ -10,11 +10,11 @@ module.exports = class MemberExpression extends Node {
     const prop = this.traverse(this.node.property)
 
     if (this.node.optional && !this.features.includes('optionalChaining')) {
-      if (this.node.object.type === 'Identifier') {
+      if (this.node.object.type === 'Identifier' || this.node.object.type === 'ThisExpression') {
         return (
           chunk
-            .add(`${this.node.object.name} === null && ${this.node.object.name} === void 0 ? void 0 : `)
-            .add(`${this.node.object.name}.`)
+            .add(`${this.node.object.name || 'this'} === null && ${this.node.object.name || 'this'} === void 0 ? void 0 : `)
+            .add(`${this.node.object.name || 'this'}.`)
             .children(prop.all())
         )
       }

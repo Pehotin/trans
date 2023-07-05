@@ -13,6 +13,7 @@ const UnaryExpression = require('./UnaryExpression')
 const UpdateExpression = require('./UpdateExpression')
 const ConditionalExpression = require('./ConditionalExpression')
 const ThisExpression = require('./ThisExpression')
+const CallExpression = require('./CallExpression')
 const Identifier = require('./Identifier')
 
 module.exports = {
@@ -30,6 +31,7 @@ module.exports = {
   UnaryExpression,
   UpdateExpression,
   ConditionalExpression,
+  CallExpression,
   ThisExpression,
   Identifier
 }
