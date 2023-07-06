@@ -19,6 +19,9 @@ const IfStatement = require('./IfStatement')
 const WhileStatement = require('./WhileStatement')
 const ReturnStatement = require('./ReturnStatement')
 const EmptyStatement = require('./EmptyStatement')
+const TryStatement = require('./TryStatement')
+const BreakStatement = require('./BreakStatement')
+const ContinueStatement = require('./ContinueStatement')
 
 module.exports = {
   ClassDeclaration,
@@ -41,5 +44,8 @@ module.exports = {
   IfStatement,
   WhileStatement,
   ReturnStatement,
-  EmptyStatement
+  EmptyStatement,
+  TryStatement,
+  BreakStatement,
+  ContinueStatement
 }

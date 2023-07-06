@@ -1,6 +1,7 @@
 func(a + 2, false);
-fun2(a + 3, false);
 while (condition) {
+  break;
   return 12 + 2 * 4;
 }
 
+while (true) continue;
