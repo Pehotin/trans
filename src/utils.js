@@ -1,6 +1,6 @@
 const Chunk = require('./Chunk')
 
-module.exports.transpileParams = function(nodes, chunk, node, extra) {
+const transpileParams = function(nodes, chunk, node, extra) {
   if (node.features.includes('defaultParameter')) {
     nodes.forEach((param, i) => {
       if (i !== 0) {
@@ -9,14 +9,14 @@ module.exports.transpileParams = function(nodes, chunk, node, extra) {
 
       if (param.type === 'Identifier') {
         chunk.add(`${param.name}`)
-      } else if (param.type === 'AssignmentPattern') {
+      } else if (param.type === 'AssignmentExpression' || param.type === 'AssignmentPattern') {
         chunk
           .add(`${param.left.name}`)
           .space()
           .add('=')
           .space()
           .children(node.traverse(param.right).all())
-      } else if (param.type === 'RestElement') {
+      } else if (param.type === 'SpreadElement' || param.type === 'RestElement') {
         chunk
           .add('...')
           .add(param.argument.name)
@@ -30,7 +30,7 @@ module.exports.transpileParams = function(nodes, chunk, node, extra) {
 
       if (param.type === 'Identifier') {
         chunk.add(`${param.name}`)
-      } else if (param.type === 'AssignmentPattern') {
+      } else if (param.type === 'AssignmentExpression' || param.type === 'AssignmentPattern') {
         chunk.add(`${param.left.name}`)
 
         const defaultChunk = new Chunk()
@@ -43,8 +43,10 @@ module.exports.transpileParams = function(nodes, chunk, node, extra) {
           .line()
 
         extra.push(defaultChunk)
-      } else if (param.type === 'RestElement') {
-        chunk.removeLast()
+      } else if (param.type === 'SpreadElement' || param.type === 'RestElement') {
+        if (i !== 0) {
+          chunk.removeLast()
+        }
 
         const defaultChunk = new Chunk()
         defaultChunk
@@ -67,7 +69,7 @@ module.exports.transpileParams = function(nodes, chunk, node, extra) {
   return chunk
 }
 
-module.exports.generateVariableName = function(scope) {
+const generateVariableName = function(scope) {
   let charCode = 97
 
   while (scope.contains('_' + String.fromCharCode(charCode))){
@@ -76,3 +78,18 @@ module.exports.generateVariableName = function(scope) {
 
   return '_' + String.fromCharCode(charCode)
 }
+
+
+
+const createVar = function(node) {
+  const nodeParent = node.parent.nodeWithScope
+  const scope = nodeParent.scope
+  const varName = generateVariableName(scope)
+
+  scope.addDeclaration(varName, null, 'var')
+  nodeParent.prepend((new Chunk()).addMeta('variable').add(`var ${varName};`).line())
+
+  return varName
+}
+
+module.exports = {generateVariableName, createVar, transpileParams}

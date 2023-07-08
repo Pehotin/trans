@@ -22,6 +22,8 @@ const EmptyStatement = require('./EmptyStatement')
 const TryStatement = require('./TryStatement')
 const BreakStatement = require('./BreakStatement')
 const ContinueStatement = require('./ContinueStatement')
+const FunctionExpression = require('./FunctionExpression')
+const ArrowFunctionExpression = require('./ArrowFunctionExpression')
 
 module.exports = {
   ClassDeclaration,
@@ -47,5 +49,7 @@ module.exports = {
   EmptyStatement,
   TryStatement,
   BreakStatement,
-  ContinueStatement
+  ContinueStatement,
+  FunctionExpression,
+  ArrowFunctionExpression
 }

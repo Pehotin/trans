@@ -1,7 +1,16 @@
-func(a + 2, false);
-while (condition) {
-  break;
-  return 12 + 2 * 4;
-}
+var B = (function () {
+  B.prototype.ff = function () {
+    var _self = this;
+    a = function (c, b) {
+      {
+        _self.b;
+      }
+      
+      _self;
+    };
+  };
+  
+  
+  return B;
+}());
 
-while (true) continue;

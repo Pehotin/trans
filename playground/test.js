@@ -29,16 +29,16 @@
 
 // }
 
-func(a + 2, false)
+// func(a + 2, false)
 
-while (condition) {
-  break
-  return ((
-    12 + 2
-  ) * 4)
-}
+// while (condition) {
+//   break
+//   return ((
+//     12 + 2
+//   ) * 4)
+// }
 
-while (true) continue
+// while (true) continue
 
 // for (let index = 0; index < array.length; index++) {
 //   break
@@ -55,4 +55,16 @@ while (true) continue
 //   1 + 2
 // }
 
-// this ?? 'tt'
+// this.blur() ?? 'tt'
+
+class B {
+  ff() {
+    a = (c, b) => {
+      {
+        this.b
+      }
+      this
+      // console.log(this.test())
+    }
+  }
+}

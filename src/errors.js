@@ -16,11 +16,19 @@ class Error {
 
 class CompileError extends Error {
   constructor(msg, node) {
-    super(
-      'Compile Error: ' + msg,
-      node.position.start.line,
-      node.position.start.column,
-    )
+    if (node) {
+      super(
+        'Compile Error: ' + msg,
+        node.position.start.line,
+        node.position.start.column,
+      )
+    } else {
+      super(
+        'Compile Error: ' + msg,
+        'unknown',
+        'unknown',
+      )
+    }
   }
 }
 

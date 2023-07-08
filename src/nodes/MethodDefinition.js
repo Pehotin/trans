@@ -52,6 +52,7 @@ module.exports = class MethodDefinition extends Node {
       .add('{')
       .line()
       .indentStart()
+      .prepend()
 
     if (extras.length > 0) {
       chunk.children(extras)
@@ -59,6 +60,7 @@ module.exports = class MethodDefinition extends Node {
 
     chunk
       .children(children.all())
+      .append()
       .indentEnd()
       .add('}')
       .semicolonIf(this.node.key.name !== 'constructor')

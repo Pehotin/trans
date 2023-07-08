@@ -17,6 +17,7 @@ class Scope {
       compileError(`Duplicate identifier '${name}'`, node)
     }
     this.declarations.set(name, [node, kind])
+    return true
   }
 
   contains(name) {

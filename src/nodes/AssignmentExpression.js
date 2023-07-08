@@ -1,23 +1,89 @@
 const Node = require('./Node')
+const { createVar } = require('../utils')
 
 module.exports = class AssigmentExpression extends Node {
-  meta = 'assigment'
+  meta = 'assigment-expression'
 
   transpile(chunk) {
-    const children = this.traverse(this.node.left)
+    const variable = this.traverse(this.node.left)
+    const expression = this.traverse(this.node.right)
 
-    chunk
-      .children(children.all())
-      .space()
-      .add(this.node.operator)
-      .space()
+    if (!this.features.includes('logicalAssignmentOperators')) {
+      if (this.node.operator === '&&=' || this.node.operator === '||=') {
+        if (this.node.left.type === 'Identifier' || this.node.left.type === 'ThisExpression') {
+          return (
+            chunk
+              .children(variable.all())
+              .space()
+              .add(this.node.operator === '&&=' ? '&&' : '||')
+              .space()
+              .add('(')
+              .children(variable.all())
+              .space()
+              .add('=')
+              .space()
+              .children(expression.all())
+              .add(')')
+          )
+        }
 
-    if (this.node.right.type === 'Identifier') {
-      chunk.add(this.node.right.name)
-    } else if (this.node.right.type === 'Literal') {
-      chunk.add(this.node.right.raw || this.node.right.value)
+        const varName = createVar(this)
+
+        return (
+          chunk
+            .add(`(${varName} = `)
+            .children(variable.all())
+            .add(') ')
+            .add(this.node.operator === '&&=' ? '&&' : '||')
+            .space()
+            .add('(')
+            .add(varName)
+            .space()
+            .add('=')
+            .space()
+            .children(expression.all())
+            .add(')')
+        )
+      }
+
+      if (this.node.operator === '??=') {
+        if (this.node.left.type === 'Identifier' || this.node.left.type === 'ThisExpression') {
+          return (
+            chunk
+              .children(variable.all())
+              .space()
+              .add('!== null && ')
+              .children(variable.all())
+              .add(' !== void 0 ? ')
+              .children(variable.all())
+              .add(' : (')
+              .children(variable.all())
+              .add(' = ')
+              .children(expression.all())
+              .add(')')
+          )
+        }
+
+        const varName = createVar(this)
+
+        return (
+          chunk
+            .add(`(${varName} = `)
+            .children(variable.all())
+            .add(') ')
+            .add(`!== null && ${varName} !== void 0 ? ${varName} : ${varName} = `)
+            .children(expression.all())
+        )
+      }
     }
 
-    return chunk
+    return (
+      chunk
+        .children(variable.all())
+        .space()
+        .add(this.node.operator)
+        .space()
+        .children(expression.all())
+    )
   }
 }

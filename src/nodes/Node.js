@@ -52,6 +52,18 @@ class Node {
     return this.parent.nodeWithScope
   }
 
+  getFirstParentNode(...nodeTypes) {
+    if (!this.parent) {
+      return null
+    }
+
+    if (nodeTypes.includes(this.parent.node.type)) {
+      return this.parent
+    }
+
+    return this.parent.getFirstParentNode(...nodeTypes)
+  }
+
   prepend(chunk) {
     this.chunk._prepend.push(chunk)
   }

@@ -54,9 +54,6 @@ class Trans {
 
       const b = instance.transpile(chunk)
 
-      // const util = require('util')
-      // console.log(util.inspect(b, false, null, true))
-
       this.output = b.toString()
     } catch (error) {
       console.log(error.toString())
