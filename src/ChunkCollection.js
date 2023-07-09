@@ -74,7 +74,18 @@ class ChunkCollection {
   }
 
   first(...args) {
-    return this.get(...args)[0]
+    if (args.length) {
+      return this.get(...args)[0]
+    }
+
+    const array = this.all()
+    const chunk = array[0]
+
+    if (Array.isArray(chunk)) {
+      return chunk[0]
+    }
+
+    return chunk
   }
 
   last() {

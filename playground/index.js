@@ -1,7 +1,5 @@
 const Trans = require('../src')
 const fs = require('node:fs')
-const util = require('util')
-
 const data = fs.readFileSync('./test.js', 'utf-8')
 
 Trans.pile(data, {
@@ -9,4 +7,5 @@ Trans.pile(data, {
   output: './output.js'
 })
 
+//const util = require('util')
 // console.log(util.inspect(ast, false, null, true))

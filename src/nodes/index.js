@@ -24,6 +24,8 @@ const BreakStatement = require('./BreakStatement')
 const ContinueStatement = require('./ContinueStatement')
 const FunctionExpression = require('./FunctionExpression')
 const ArrowFunctionExpression = require('./ArrowFunctionExpression')
+const TemplateLiteral = require('./TemplateLiteral')
+const TemplateElement = require('./TemplateElement')
 
 module.exports = {
   ClassDeclaration,
@@ -51,5 +53,7 @@ module.exports = {
   BreakStatement,
   ContinueStatement,
   FunctionExpression,
-  ArrowFunctionExpression
+  ArrowFunctionExpression,
+  TemplateLiteral,
+  TemplateElement
 }

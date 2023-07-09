@@ -57,14 +57,4 @@
 
 // this.blur() ?? 'tt'
 
-class B {
-  ff() {
-    a = (c, b) => {
-      {
-        this.b
-      }
-      this
-      // console.log(this.test())
-    }
-  }
-}
+a = `v ${1 + 2} ${'fe' || ` ${'cc' + 2} bb` } test`

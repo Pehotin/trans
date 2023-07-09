@@ -19,6 +19,10 @@ class Chunk {
     return this._meta
   }
 
+  hasMeta(meta) {
+    return this._meta.includes(meta)
+  }
+
   addMeta(value) {
     if (Array.isArray(value)) {
       this._meta.push(...array)
