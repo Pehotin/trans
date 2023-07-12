@@ -1,9 +1,10 @@
 class ChunkCollection {
-  chunks = new Map()
+  tags = new Map()
+  _chunks = []
 
   constructor(chunk) {
     if (chunk) {
-      this.chunks.push(chunk)
+      this._chunks.push(chunk)
     }
     return this
   }
@@ -13,22 +14,20 @@ class ChunkCollection {
       throw new Error('Chunk not provided')
     }
 
-    if (chunk.meta.length === 0) {
-      this._update('default', chunk)
-    }
+    this._chunks.push(chunk)
+    const index = this._chunks.length - 1
 
     for (let i = 0; i < chunk.meta.length; i++) {
       const tag = chunk.meta[i]
-      this._update(tag, chunk)
+      this._update(tag, index)
     }
-    return this
   }
 
   _update(key, value) {
-    if (!this.chunks.has(key)) {
-      this.chunks.set(key, [value])
+    if (!this.tags.has(key)) {
+      this.tags.set(key, [value])
     } else {
-      const chunks = this.chunks.get(key)
+      const chunks = this.tags.get(key)
       chunks.push(value)
     }
   }
@@ -37,7 +36,7 @@ class ChunkCollection {
     const argsNum = args.length
     let matches = 0
 
-    for (const value of this.chunks.keys()) {
+    for (const value of this.tags.keys()) {
       if (args.includes(value)) {
         matches++
       }
@@ -52,60 +51,58 @@ class ChunkCollection {
     }
 
     if (args.length === 1) {
-      return this.chunks.get(args[0])
+      const out = []
+      const indexes = this.tags.get(args[0])
+
+      indexes.forEach(index => {
+        out.push(this._chunks[index])
+      })
+      return out
     }
 
-    const chunks = []
+    const arraysOfIndexes = []
 
     args.forEach(arg => {
-      chunks.push(this.chunks.get(arg))
+      arraysOfIndexes.push(this.tags.get(arg))
     })
 
-    const array1 = chunks[0]
-    const array2 = chunks[1]
+    const array1 = arraysOfIndexes[0]
+    const array2 = arraysOfIndexes[1]
 
     if (!array1 && !array2) {
       return []
     }
 
-    const intersection = array1.filter(chunk => array2.includes(chunk))
+    const intersection = array1.filter(index => array2.includes(index))
+    const out = []
+
+    intersection.forEach(index => {
+      out.push(this._chunks[index])
+    })
 
     return intersection
   }
 
-  first(...args) {
-    if (args.length) {
-      return this.get(...args)[0]
-    }
+  each(callback) {
+    const chunks = this.all()
 
-    const array = this.all()
-    const chunk = array[0]
-
-    if (Array.isArray(chunk)) {
-      return chunk[0]
-    }
-
-    return chunk
+    chunks.forEach((chunk) => {
+      if (Array.isArray(chunk)) {
+        chunk.forEach((c) => {
+          callback(c)
+        })
+      } else {
+        callback(chunk)
+      }
+    })
   }
 
   last() {
-    const array = this.all()
-    const chunk = array[array.length - 1]
-
-    if (Array.isArray(chunk)) {
-      return chunk[0]
-    }
-
-    return chunk
+    return this._chunks[this._chunks.length - 1]
   }
 
   all() {
-    const array = Array.from(this.chunks.values())
-
-    if (array.length === 0) {
-      return []
-    }
-    return array
+    return this._chunks
   }
 }
 

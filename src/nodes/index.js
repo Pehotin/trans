@@ -17,6 +17,7 @@ const CallExpression = require('./CallExpression')
 const Identifier = require('./Identifier')
 const IfStatement = require('./IfStatement')
 const WhileStatement = require('./WhileStatement')
+const DoWhileStatement = require('./DoWhileStatement')
 const ReturnStatement = require('./ReturnStatement')
 const EmptyStatement = require('./EmptyStatement')
 const TryStatement = require('./TryStatement')
@@ -26,6 +27,13 @@ const FunctionExpression = require('./FunctionExpression')
 const ArrowFunctionExpression = require('./ArrowFunctionExpression')
 const TemplateLiteral = require('./TemplateLiteral')
 const TemplateElement = require('./TemplateElement')
+const ArrayLiteral = require('./ArrayLiteral')
+const ObjectLiteral = require('./ObjectLiteral')
+const ThrowStatement = require('./ThrowStatement')
+const SwitchStatement = require('./SwitchStatement')
+const SwitchCase = require('./SwitchCase')
+const SwitchDefault = require('./SwitchDefault')
+const Property = require('./Property')
 
 module.exports = {
   ClassDeclaration,
@@ -55,5 +63,13 @@ module.exports = {
   FunctionExpression,
   ArrowFunctionExpression,
   TemplateLiteral,
-  TemplateElement
+  TemplateElement,
+  ArrayLiteral,
+  ObjectLiteral,
+  ThrowStatement,
+  DoWhileStatement,
+  SwitchStatement,
+  SwitchCase,
+  SwitchDefault,
+  Property
 }

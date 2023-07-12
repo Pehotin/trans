@@ -37,6 +37,20 @@ class Chunk {
     return this
   }
 
+  addTo(position, string) {
+    this.strings.splice(position, 0, string)
+    return this
+  }
+
+  replace(target, value) {
+    const index = this.strings.indexOf(target)
+
+    if (index) {
+      this.strings[index] = value
+    }
+    return this
+  }
+
   removeLast(number) {
     if (number) {
       for (let i = 0; i < number; i++) {

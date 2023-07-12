@@ -57,4 +57,15 @@
 
 // this.blur() ?? 'tt'
 
-a = `v ${1 + 2} ${'fe' || ` ${'cc' + 2} bb` } test`
+// a = [123, 'b', () => {}]
+
+// throw 1;
+
+b = {
+  k,
+  j: true || 3,
+  // [1 + 2]: false,
+  g(j) {
+    return this
+  }
+}

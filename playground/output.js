@@ -1,1 +1,9 @@
-a = "v ".concat(1 + 2, " ").concat('fe' || " ".concat('cc' + 2, " bb"), " test");
+b = {  
+  k: k,
+  
+  j: true || 3,
+  
+  g: function (j) {
+    return this;
+  },
+};

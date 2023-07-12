@@ -95,15 +95,19 @@ class Node {
           continue
         }
 
-        nodeInstance = new nodeClasses[node[i].type]()
-        nodeInstance.node = node[i]
-        nodeInstance.parent = parent
+        try {
+          nodeInstance = new nodeClasses[node[i].type]()
+          nodeInstance.node = node[i]
+          nodeInstance.parent = parent
 
-        if (nodeInstance.init) {
-          nodeInstance.init()
+          if (nodeInstance.init) {
+            nodeInstance.init()
+          }
+
+          addMeta(nodeInstance, node[i].type)
+        } catch (error) {
+          throw new Error(error + ': ' + node[i].type)
         }
-
-        addMeta(nodeInstance, node[i].type)
       }
     } else {
       try {
