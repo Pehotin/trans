@@ -45,9 +45,19 @@ class Chunk {
   replace(target, value) {
     const index = this.strings.indexOf(target)
 
-    if (index) {
+    if (index !== -1) {
       this.strings[index] = value
     }
+    return this
+  }
+
+  replaceAll(target, value) {
+    let index
+
+    while ((index = this.strings.indexOf(target)) !== -1) {
+      this.strings[index] = value
+    }
+
     return this
   }
 

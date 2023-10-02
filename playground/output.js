@@ -1,9 +1,1 @@
-b = {  
-  k: k,
-  
-  j: true || 3,
-  
-  g: function (j) {
-    return this;
-  },
-};
+var { b: c, l } = require('./b');

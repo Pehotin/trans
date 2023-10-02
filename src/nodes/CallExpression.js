@@ -14,12 +14,12 @@ module.exports = class CallExpression extends Node {
     args.all().forEach((arg, i) => {
       if (i === 0) {
         chunk
-          .children(arg)
+          .children([arg])
       } else {
         chunk
           .add(',')
           .space()
-          .children(arg)
+          .children([arg])
       }
     })
 

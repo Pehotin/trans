@@ -67,6 +67,16 @@ module.exports = class ObjectLiteral extends Node {
   }
 
   _transpileSupported(chunk) {
-    return chunk
+    const properties = this.traverse(this.node.properties)
+
+    return (
+      chunk
+        .add('{')
+        .line()
+        .indentStart()
+        .children(properties.all())
+        .indentEnd()
+        .add('}')
+    )
   }
 }

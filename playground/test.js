@@ -61,11 +61,7 @@
 
 // throw 1;
 
-b = {
-  k,
-  j: true || 3,
-  // [1 + 2]: false,
-  g(j) {
-    return this
-  }
-}
+import {b as c, l} from './b'
+// const {a: c, b} = require('./b')
+
+// console.log(c)

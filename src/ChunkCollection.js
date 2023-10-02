@@ -54,6 +54,10 @@ class ChunkCollection {
       const out = []
       const indexes = this.tags.get(args[0])
 
+      if (!indexes) {
+        return []
+      }
+
       indexes.forEach(index => {
         out.push(this._chunks[index])
       })
@@ -86,13 +90,13 @@ class ChunkCollection {
   each(callback) {
     const chunks = this.all()
 
-    chunks.forEach((chunk) => {
+    chunks.forEach((chunk, i) => {
       if (Array.isArray(chunk)) {
-        chunk.forEach((c) => {
-          callback(c)
+        chunk.forEach((c, index) => {
+          callback(c, i + index)
         })
       } else {
-        callback(chunk)
+        callback(chunk, i)
       }
     })
   }

@@ -34,6 +34,14 @@ const SwitchStatement = require('./SwitchStatement')
 const SwitchCase = require('./SwitchCase')
 const SwitchDefault = require('./SwitchDefault')
 const Property = require('./Property')
+const VariableDeclaration = require('./VariableDeclaration')
+const VariableDeclarator = require('./VariableDeclarator')
+const ArrayPattern = require('./ArrayPattern')
+const ObjectPattern = require('./ObjectPattern')
+const RestElement = require('./RestElement')
+const ImportDeclaration = require('./ImportDeclaration')
+const ImportDefaultSpecifier = require('./ImportDefaultSpecifier')
+const ImportSpecifier = require('./ImportSpecifier')
 
 module.exports = {
   ClassDeclaration,
@@ -71,5 +79,13 @@ module.exports = {
   SwitchStatement,
   SwitchCase,
   SwitchDefault,
-  Property
+  Property,
+  VariableDeclaration,
+  VariableDeclarator,
+  ArrayPattern,
+  ObjectPattern,
+  RestElement,
+  ImportDeclaration,
+  ImportDefaultSpecifier,
+  ImportSpecifier
 }
