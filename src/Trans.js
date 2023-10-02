@@ -35,6 +35,8 @@ class Trans {
     if (this.instance.options.output) {
       writeFileSync(this.instance.options.output, this.instance.output)
     }
+
+    return this.instance.output
   }
 
   _transpile() {
