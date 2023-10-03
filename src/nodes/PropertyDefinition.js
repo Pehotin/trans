@@ -25,28 +25,30 @@ module.exports = class PropertyDefinition extends Node {
   }
 
   _transpileUnsupported(property) {
+    const key = this.traverse(this.node.key)
+    const value = this.traverse(this.node.value)
+
     if (this.node.static) {
       property.addMeta('static')
       property.add(`${this.parent.node.id.name}.${this.node.key.name}`)
     } else {
       property.addMeta('instance')
-      property.add(`this.${this.node.key.name}`)
+
+      property
+        .add('this.')
+        .children(key.all())
     }
 
-    property.space()
-
     if (this.node.value) {
-      if (this.node.value.type === 'Literal') {
-        if (this.node.value.raw !== undefined && this.node.value.raw !== null) {
-          property.add(`= ${this.node.value.raw}`)
-        } else {
-          property.add(`= ${this.node.value.value}`)
-        }
-      } else if (this.node.type === 'Identifier') {
-        property.add(`= ${this.node.value.name}`)
-      }
+      property
+        .space()
+        .add('=')
+        .space()
+        .children(value.all())
     } else {
-      property.add('= undefined')
+      property
+        .space()
+        .add('= undefined')
     }
 
     return property.semicolon().line()

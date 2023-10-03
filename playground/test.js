@@ -65,5 +65,14 @@
 // const {a: c, b} = require('./b')
 
 // console.log(c)
-var title = 'a'
-var a = `This is ${title}`
+class Title {
+  props = ['title']
+  state() {
+    return {
+      exists: true
+    }
+  }
+  mounted() {
+    console.log('mounted')
+  }
+}

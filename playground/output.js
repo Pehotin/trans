@@ -1,2 +1,20 @@
-var title = 'a';
-var a = "This is ".concat(title, "");
+var Title = (function () {
+  function Title() {
+    this.props = ['title'];
+  
+  }
+  
+  Title.prototype.state = function () {
+    return {      
+      exists: true,
+    };
+  };
+  
+  Title.prototype.mounted = function () {
+    console.log('mounted');
+  };
+  
+  
+  return Title;
+}());
+
