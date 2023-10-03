@@ -8,6 +8,8 @@ module.exports = class NewExpression extends Node {
     const args = this.traverse(this.node.args)
 
     chunk
+      .add('new')
+      .space()
       .children(callee.all())
       .add('(')
 
