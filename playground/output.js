@@ -1,9 +1,2 @@
-var { B } = require("/b");
-var { Title } = require("Title.vue");
-var b = B();
-var res = b.add();
-console.log(res);
-function add(a, b) {
-  return a + b;
-}
-
+var title = 'a';
+var a = "This is ".concat(title, "");

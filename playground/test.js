@@ -65,15 +65,5 @@
 // const {a: c, b} = require('./b')
 
 // console.log(c)
-
-import { B } from "/b"
-import { Title } from "Title.vue"
-
-const b = new B
-const res = b.add()
-
-console.log(res)
-
-function add(a, b) {
-  return a + b
-}
+var title = 'a'
+var a = `This is ${title}`

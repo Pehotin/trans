@@ -101,6 +101,10 @@ class ChunkCollection {
     })
   }
 
+  first() {
+    return this._chunks[0]
+  }
+
   last() {
     return this._chunks[this._chunks.length - 1]
   }
