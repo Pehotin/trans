@@ -38,6 +38,7 @@ module.exports = class ImportDeclaration extends Node {
       .children(source.all())
       .add(')')
       .semicolon()
+      .line(1)
 
     return chunk
   }

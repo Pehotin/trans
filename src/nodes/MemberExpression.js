@@ -37,7 +37,9 @@ module.exports = class MemberExpression extends Node {
       )
     }
 
+    chunk.addIf(this.node.object.type === 'NewExpression', '(')
     chunk.children(object.all())
+    chunk.addIf(this.node.object.type === 'NewExpression', ')')
 
     if (this.node.computed) {
       chunk

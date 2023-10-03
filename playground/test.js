@@ -6,12 +6,12 @@
 //   static test3 = 123
 
 //   constructor(a = 2, ...b) {
-//     // this.c = a
-//     // this.b = b
+//     this.c = a
+//     this.b = b
 //   }
 
 //   init() {
-//     // this.g = k
+//     this.g = k
 //   }
 
 //   get() {
@@ -61,7 +61,19 @@
 
 // throw 1;
 
-import {b as c, l} from './b'
+// import {b as c, l} from './b'
 // const {a: c, b} = require('./b')
 
 // console.log(c)
+
+import { B } from "/b"
+import { Title } from "Title.vue"
+
+const b = new B
+const res = b.add()
+
+console.log(res)
+
+function add(a, b) {
+  return a + b
+}

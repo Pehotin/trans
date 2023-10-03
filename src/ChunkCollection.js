@@ -73,7 +73,7 @@ class ChunkCollection {
     const array1 = arraysOfIndexes[0]
     const array2 = arraysOfIndexes[1]
 
-    if (!array1 && !array2) {
+    if (!array1 || !array2) {
       return []
     }
 
@@ -84,7 +84,7 @@ class ChunkCollection {
       out.push(this._chunks[index])
     })
 
-    return intersection
+    return out
   }
 
   each(callback) {

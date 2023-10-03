@@ -42,6 +42,7 @@ const RestElement = require('./RestElement')
 const ImportDeclaration = require('./ImportDeclaration')
 const ImportDefaultSpecifier = require('./ImportDefaultSpecifier')
 const ImportSpecifier = require('./ImportSpecifier')
+const NewExpression = require('./NewExpression')
 
 module.exports = {
   ClassDeclaration,
@@ -87,5 +88,6 @@ module.exports = {
   RestElement,
   ImportDeclaration,
   ImportDefaultSpecifier,
-  ImportSpecifier
+  ImportSpecifier,
+  NewExpression
 }

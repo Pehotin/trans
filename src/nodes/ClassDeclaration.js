@@ -38,7 +38,7 @@ class ClassDeclaration extends Node {
           classChunk.indentEnd()
       } else {
         const constructorChunk = chunksCollection.first('method', 'constructor')
-        constructorChunk.injectAfterFirst('{', chunksCollection.get('property', 'instance'))
+        constructorChunk[0].injectAfterFirst('{', chunksCollection.get('property', 'instance'))
         classChunk.add(constructorChunk)
       }
     }
@@ -62,12 +62,23 @@ class ClassDeclaration extends Node {
       .indentStart()
 
       if (children.has('constructor')) {
-        const constructor = children.first('method', 'constructor')
+        const constructor = children.get('method', 'constructor')
 
-        constructor.injectAfterFirst('{', children.get('property', 'instance'))
+        if (children.has('property', 'instance')) {
+          constructor[0].injectAfterFirst('{', children.get('property', 'instance'))
+        }
+
         chunk.add(constructor)
       } else {
-
+        chunk
+          .add(`function ${this.node.id.name}() {`)
+          .line(1)
+          .indentStart()
+          .children(children.get('property', 'instance'))
+          .indentEnd()
+          .line(1)
+          .add('}')
+          .line(2)
       }
 
       return (
