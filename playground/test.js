@@ -65,14 +65,4 @@
 // const {a: c, b} = require('./b')
 
 // console.log(c)
-class Title {
-  props = ['title']
-  state() {
-    return {
-      exists: true
-    }
-  }
-  mounted() {
-    console.log('mounted')
-  }
-}
+export const a = 2, b = 3 || false
