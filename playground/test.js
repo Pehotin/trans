@@ -65,4 +65,6 @@
 // const {a: c, b} = require('./b')
 
 // console.log(c)
-export const a = 2, b = 3 || false
+// export const a = 2, b = 3 || false
+
+import c, { a as b, l } from './b'

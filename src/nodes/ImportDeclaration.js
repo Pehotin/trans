@@ -4,41 +4,39 @@ module.exports = class ImportDeclaration extends Node {
   meta = 'import-declaration'
 
   transpile(chunk) {
-    const specifiers = this.traverse(this.node.specifiers)
     const source = this.traverse(this.node.source)
 
-    chunk
-      .add('var')
-      .space()
-
-    if (specifiers.has('import-specifier')) {
-      chunk
-        .add('{')
-        .space()
-    }
-
-    specifiers.each((chunkChild, i) => {
-      if (i !== 0) {
-        chunk.add(',').space()
+    this.node.specifiers.forEach((chunkChild, i) => {
+      if (chunkChild.type === 'ImportDefaultSpecifier') {
+        chunk
+          .add('var')
+          .space()
+          .children(this.traverse(chunkChild.local).all())
+          .space()
+          .add('=')
+          .space()
+          .add('require(')
+          .children(source.all())
+          .add(')')
+          .semicolon()
+          .line(1)
+      } else {
+        chunk
+          .add('var')
+          .space()
+          .children(this.traverse(chunkChild.local).all())
+          .space()
+          .add('=')
+          .space()
+          .add('require(')
+          .children(source.all())
+          .add(')')
+          .add('.')
+          .children(this.traverse(chunkChild.imported).all())
+          .semicolon()
+          .line(1)
       }
-      chunk.children([chunkChild])
     })
-
-    if (specifiers.has('import-specifier')) {
-      chunk
-        .space()
-        .add('}')
-    }
-
-    chunk
-      .space()
-      .add('=')
-      .space()
-      .add('require(')
-      .children(source.all())
-      .add(')')
-      .semicolon()
-      .line(1)
 
     return chunk
   }
