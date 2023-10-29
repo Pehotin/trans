@@ -84,6 +84,7 @@ class ClassDeclaration extends Node {
       return (
         chunk
           .children(children.get('method', 'instance'))
+          .children(children.get('method', 'static'))
           .children(children.get('property', 'static'))
           .line(1)
           .add(`return ${this.node.id.name}`)

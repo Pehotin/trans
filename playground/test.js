@@ -1,70 +1,35 @@
-// class Test {
-//   test = 1
-//   c
+export class Vnode {
+  constructor(
+    tag,
+    key,
+    attrs,
+    children,
+    text,
+    dom
+  ) {
+    return {
+      tag: tag,
+      key: key,
+      attrs: attrs,
+      children: children,
+      text: text,
+      dom: dom,
+      domSize: undefined,
+      state: undefined,
+      events: undefined,
+      instance: undefined
+    }
+  }
 
-//   static test2 = ''
-//   static test3 = 123
+  static normalize(vnode) {
+    if (Array.isArray(vnode)) return new Vnode('[', undefined, undefined, Vnode.normalizeChildren(vnode), undefined, undefined)
+    if (vnode == null || typeof vnode === "boolean") return null
+    if (typeof vnode === "object") return vnode
 
-//   constructor(a = 2, ...b) {
-//     this.c = a
-//     this.b = b
-//   }
+    for (let i = 0; i < array.length; i++) {
+      children[i] = Vnode.normalize(array[i])
+    }
 
-//   init() {
-//     this.g = k
-//   }
-
-//   get() {
-//     this.kj = false
-//   }
-// }
-
-// {
-//   1 + 2
-// }
-
-// function name(a = '123', c = false, ...b) {
-//   h + 'b' ?? 1 + 2
-//   test?.c[2 + 3]
-
-// }
-
-// func(a + 2, false)
-
-// while (condition) {
-//   break
-//   return ((
-//     12 + 2
-//   ) * 4)
-// }
-
-// while (true) continue
-
-// for (let index = 0; index < array.length; index++) {
-//   break
-
-// }
-
-// fun2(a + 3, false)
-
-// try {
-
-// } catch {
-
-// } finally {
-//   1 + 2
-// }
-
-// this.blur() ?? 'tt'
-
-// a = [123, 'b', () => {}]
-
-// throw 1;
-
-// import {b as c, l} from './b'
-// const {a: c, b} = require('./b')
-
-// console.log(c)
-// export const a = 2, b = 3 || false
-
-import c, { a as b, l } from './b'
+    return new Vnode("#", undefined, undefined, String(vnode))
+  }
+}

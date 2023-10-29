@@ -16,17 +16,13 @@ module.exports = class MethodDefinition extends Node {
       && this.features.includes('staticPublicPrivateFieldsMethodsAccessors')
     ) {
       return this._transpileStaticPrivateComputedSupported(chunk)
-    }
-
-    if (!this.node.static && !this.node.private && !this.node.computed && !this.features.includes('conciseMethodProperty')) {
-      return this._transpileUnsupported(chunk)
     } else {
-      return this._transpileSupported(chunk)
+      return this._transpileUnsupported(chunk)
     }
   }
 
   _transpileStaticPrivateComputedSupported(chunk) {
-
+    // TODO
   }
 
   _transpileUnsupported(chunk) {
@@ -38,10 +34,13 @@ module.exports = class MethodDefinition extends Node {
         .addMeta('constructor')
         .add(`function ${this.parent.node.id.name}(`)
     } else {
-      chunk.addMeta('instance')
-
-      chunk
-        .add(`${this.parent.node.id.name}.prototype.${this.node.key.name} = function (`)
+      if (this.node.static) {
+        chunk.addMeta('static')
+        chunk.add(`${this.parent.node.id.name}.${this.node.key.name} = function (`)
+      } else {
+        chunk.addMeta('instance')
+        chunk.add(`${this.parent.node.id.name}.prototype.${this.node.key.name} = function (`)
+      }
     }
 
     transpileParams(this.node.value.params, chunk, this, extras)
@@ -71,13 +70,15 @@ module.exports = class MethodDefinition extends Node {
 
   _transpileSupported(method) {
     const children = this.traverse(this.node.value.body.body)
+    const extras = []
 
     if (this.node.key.name === 'constructor') {
       method.addMeta('constructor')
     }
 
     method.add(`${this.node.key.name} (`)
-    this._params(method)
+
+    transpileParams(this.node.value.params, method, this, extras)
 
     method
       .add(')')
