@@ -47,6 +47,7 @@ const ExportDefaultDeclaration = require('./ExportDefaultDeclaration')
 const ExportNamedDeclaration = require('./ExportNamedDeclaration')
 const ForStatement = require('./ForStatement')
 const ForInStatement = require('./ForInStatement')
+const ForOfStatement = require('./ForOfStatement')
 const GroupExpression = require('./GroupExpression')
 
 module.exports = {
@@ -99,5 +100,6 @@ module.exports = {
   ExportNamedDeclaration,
   ForStatement,
   GroupExpression,
-  ForInStatement
+  ForInStatement,
+  ForOfStatement
 }

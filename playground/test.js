@@ -1,3 +1,3 @@
-for (const prop in node) {
+for (const filePath of this.map.keys()) {
 
 }

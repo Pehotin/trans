@@ -1,3 +1,3 @@
-for (var prop in node) {
+for (var filePath of this.map.keys()) {
 }
 

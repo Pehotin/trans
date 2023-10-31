@@ -8,7 +8,7 @@ module.exports = class ThisExpression extends Node {
     if (this.features.includes('arrow')) {
       return chunk.add('this')
     } else {
-      const node = this.getFirstParentNode('ArrowFunctionExpression', 'FunctionExpression', 'FunctionDeclaration', 'MethodDefinition')
+      const node = this.getFirstParentNode('ArrowFunctionExpression', 'FunctionExpression', 'FunctionDeclaration', 'MethodDefinition', 'Program')
 
       if (node.meta === 'arrow-function-expression') {
         const node = this.getFirstParentNode('MethodDefinition', 'Program')
