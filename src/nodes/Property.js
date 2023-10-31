@@ -67,8 +67,6 @@ module.exports = class Property extends Node {
         .add(',')
     }
 
-    chunk.line()
-
     return chunk
   }
 }

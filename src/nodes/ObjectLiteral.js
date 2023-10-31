@@ -62,6 +62,7 @@ module.exports = class ObjectLiteral extends Node {
         .indentStart()
         .children(properties.all())
         .indentEnd()
+        .line()
         .add('}')
     )
   }
@@ -76,6 +77,7 @@ module.exports = class ObjectLiteral extends Node {
         .indentStart()
         .children(properties.all())
         .indentEnd()
+        .line()
         .add('}')
     )
   }

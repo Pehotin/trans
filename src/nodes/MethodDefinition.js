@@ -63,7 +63,7 @@ module.exports = class MethodDefinition extends Node {
       .indentEnd()
       .add('}')
       .semicolonIf(this.node.key.name !== 'constructor')
-      .line(2)
+      .line()
 
     return chunk
   }
