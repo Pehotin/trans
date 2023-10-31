@@ -46,6 +46,7 @@ const NewExpression = require('./NewExpression')
 const ExportDefaultDeclaration = require('./ExportDefaultDeclaration')
 const ExportNamedDeclaration = require('./ExportNamedDeclaration')
 const ForStatement = require('./ForStatement')
+const GroupExpression = require('./GroupExpression')
 
 module.exports = {
   ClassDeclaration,
@@ -95,5 +96,6 @@ module.exports = {
   NewExpression,
   ExportDefaultDeclaration,
   ExportNamedDeclaration,
-  ForStatement
+  ForStatement,
+  GroupExpression
 }
