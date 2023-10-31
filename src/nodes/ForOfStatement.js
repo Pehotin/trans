@@ -14,7 +14,6 @@ module.exports = class ForOfStatement extends Node {
   }
 
   _transpileSupported(chunk) {
-    console.log(this.node)
     const left = this.traverse(this.node.left)
     const right = this.traverse(this.node.right)
     const body = this.traverse(this.node.body)
