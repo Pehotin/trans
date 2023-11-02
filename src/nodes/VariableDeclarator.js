@@ -19,6 +19,19 @@ module.exports = class VariableDeclarator extends Node {
       return chunk
     }
 
+    if (id.get('object-pattern').length && !this.features.includes('destructuring')) {
+      const initializer = this.traverse(this.node.initializer)
+
+      id.each((chunkChild, i) => {
+        chunkChild.replaceAll('--id--', initializer.all())
+      })
+
+      chunk
+        .children(id.all())
+
+      return chunk
+    }
+
     chunk
       .children(id.all())
 

@@ -49,6 +49,8 @@ const ForStatement = require('./ForStatement')
 const ForInStatement = require('./ForInStatement')
 const ForOfStatement = require('./ForOfStatement')
 const GroupExpression = require('./GroupExpression')
+const RegularExpressionLiteral = require('./RegularExpressionLiteral')
+const AssignmentPattern = require('./AssignmentPattern')
 
 module.exports = {
   ClassDeclaration,
@@ -101,5 +103,7 @@ module.exports = {
   ForStatement,
   GroupExpression,
   ForInStatement,
-  ForOfStatement
+  ForOfStatement,
+  RegularExpressionLiteral,
+  AssignmentPattern
 }

@@ -1,3 +1,4 @@
-for (const filePath of this.map.keys()) {
-
-}
+const {
+  indent = ' ',
+  includeEmptyLines = false
+} = options
