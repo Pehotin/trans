@@ -51,6 +51,7 @@ const ForOfStatement = require('./ForOfStatement')
 const GroupExpression = require('./GroupExpression')
 const RegularExpressionLiteral = require('./RegularExpressionLiteral')
 const AssignmentPattern = require('./AssignmentPattern')
+const Super = require('./Super')
 
 module.exports = {
   ClassDeclaration,
@@ -105,5 +106,6 @@ module.exports = {
   ForInStatement,
   ForOfStatement,
   RegularExpressionLiteral,
-  AssignmentPattern
+  AssignmentPattern,
+  Super
 }

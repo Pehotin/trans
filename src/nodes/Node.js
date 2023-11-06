@@ -68,8 +68,36 @@ class Node {
     this.chunk._prepend.push(chunk)
   }
 
+  prependOnce(chunk) {
+    let exists = false
+
+    this.chunk._prepend.forEach(ch => {
+      if (ch.hasMeta(chunk.meta[0])) {
+        exists = true
+      }
+    })
+
+    if (!exists) {
+      this.chunk._prepend.push(chunk)
+    }
+  }
+
   append(chunk) {
     this.chunk._append.push(chunk)
+  }
+
+  appendOnce(chunk) {
+    let exists = false
+
+    this.chunk._append.forEach(ch => {
+      if (ch.hasMeta(chunk.meta[0])) {
+        exists = true
+      }
+    })
+
+    if (!exists) {
+      this.chunk._append.push(chunk)
+    }
   }
 
   traverse(node) {
@@ -82,7 +110,7 @@ class Node {
       if (!node.meta) {
         throw new Error(`Node required to have meta property: ${type}`)
       }
-      let chunk = new Chunk()
+      let chunk = new Chunk(node)
       node.chunk = chunk
       chunk = node.transpile(chunk)
       chunk.addMeta(node.meta)

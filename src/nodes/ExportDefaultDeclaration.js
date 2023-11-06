@@ -10,7 +10,7 @@ module.exports = class ExportDefaultDeclaration extends Node {
       return (
         chunk
           .children([declaration])
-          .add(`module.exports = ${this.node.declaration.id.name}`)
+          .add(`module.exports = ${this.node.declaration.id.name};`).line(2)
       )
     }
 
@@ -18,6 +18,8 @@ module.exports = class ExportDefaultDeclaration extends Node {
       chunk
         .add('module.exports = ')
         .children([declaration])
+        .add(';')
+        .line(2)
     )
   }
 }

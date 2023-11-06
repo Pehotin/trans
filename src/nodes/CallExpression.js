@@ -7,9 +7,15 @@ module.exports = class CallExpression extends Node {
     const callee = this.traverse(this.node.callee)
     const args = this.traverse(this.node.args)
 
-    chunk
-      .children(callee.all())
-      .add('(')
+    if (callee.has('super') && !this.features.includes('classes')) {
+      chunk
+        .add('var _this = _super.call(this')
+        .addIf(args.all().length, ', ')
+    } else {
+      chunk
+        .children(callee.all())
+        .add('(')
+    }
 
     args.all().forEach((arg, i) => {
       if (i === 0) {
@@ -23,6 +29,6 @@ module.exports = class CallExpression extends Node {
       }
     })
 
-    return chunk.add(')')
+    return chunk.add(')').addIf(callee.has('super') && !this.features.includes('classes'), ' || this')
   }
 }

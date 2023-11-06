@@ -34,9 +34,15 @@ module.exports = class PropertyDefinition extends Node {
     } else {
       property.addMeta('instance')
 
-      property
-        .add('this.')
-        .children(key.all())
+      if (!this.features.includes('class') && this.getFirstParentNode('ClassDeclaration')?.node?.superClass) {
+        property
+          .add('_this.')
+          .children(key.all())
+      } else {
+        property
+          .add('this.')
+          .children(key.all())
+      }
     }
 
     if (this.node.value) {

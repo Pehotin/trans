@@ -10,6 +10,10 @@ module.exports = class ThisExpression extends Node {
     } else {
       const node = this.getFirstParentNode('ArrowFunctionExpression', 'FunctionExpression', 'FunctionDeclaration', 'MethodDefinition', 'Program')
 
+      if (node.node.key?.name === 'constructor' && !this.features.includes('class') && node.getFirstParentNode('ClassDeclaration')?.node?.superClass) {
+        return chunk.add('_this')
+      }
+
       if (node.meta === 'arrow-function-expression') {
         const node = this.getFirstParentNode('MethodDefinition', 'Program')
         const scope = node.scope

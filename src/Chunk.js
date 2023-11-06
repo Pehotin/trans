@@ -4,6 +4,7 @@ class Chunk {
   _append = []
   _meta = []
   indent = 0
+  node
 
   static options = null
 
@@ -11,7 +12,8 @@ class Chunk {
     Chunk.options = options
   }
 
-  constructor() {
+  constructor(node) {
+    this.node = node
     return this
   }
 
