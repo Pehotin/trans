@@ -9,6 +9,7 @@ class Trans {
   options = null
   instance = null
   output = ''
+  helpers = []
   ast = null
 
   constructor(ast, options) {
@@ -39,16 +40,27 @@ class Trans {
     return this.instance.output
   }
 
+  static getHelpers() {
+    return this.instance.helpers
+  }
+
   _transpile() {
     const features = support.makeFeaturesList(this.options.target)
 
     Node.features = features
+    Node.options = this.options
+
     Chunk.setOptions(this.options)
 
     const instance = new Program()
     instance.node = this.ast
+    instance.helpers = []
     instance.parent = null
     instance.init()
+
+    if (this.options.returnHelpers) {
+      this.helpers = instance.helpers
+    }
 
     try {
       let chunk = new Chunk()

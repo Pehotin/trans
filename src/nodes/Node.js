@@ -21,6 +21,10 @@ class Node {
     return Node.features
   }
 
+  get options() {
+    return Node.options
+  }
+
   contains(node) {
 		while (node) {
 			if (node === this) return true

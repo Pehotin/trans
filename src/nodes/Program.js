@@ -14,6 +14,12 @@ class Program extends Node {
         .append()
     )
   }
+
+  addHelper(helper) {
+    if (!this.helpers.includes(helper)) {
+      this.helpers.push(helper)
+    }
+  }
 }
 
 module.exports = Program

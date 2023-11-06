@@ -2,7 +2,8 @@ class Options {
   default = {
     target: 'es3',
     output: '',
-    indentSpaces: 2
+    indentSpaces: 2,
+    returnHelpers: false
   }
 
   final = {}
