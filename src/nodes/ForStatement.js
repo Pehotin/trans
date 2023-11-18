@@ -13,12 +13,10 @@ module.exports = class ForStatement extends Node {
     const condition = this.traverse(this.node.condition)
     const update = this.traverse(this.node.update)
 
-    init.last().removeLast()
-
     chunk
       .add('for (')
       .children(init.all())
-      .space()
+      .add('; ')
       .children(condition.all())
       .add('; ')
       .children(update.all())

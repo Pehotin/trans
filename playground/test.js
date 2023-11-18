@@ -1,16 +1,3 @@
-class EventEmitter {
-  constructor(test, a) {
+for (this.offset = 0; this.offset < this.subscriptions.length; this.offset += 2) {
 
-  }
-
-  emit() {
-
-  }
-}
-
-
-export class DefaultDiffer extends EventEmitter {
-  process() {
-    this.emit()
-  }
 }
