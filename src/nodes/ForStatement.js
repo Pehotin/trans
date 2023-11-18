@@ -13,10 +13,23 @@ module.exports = class ForStatement extends Node {
     const condition = this.traverse(this.node.condition)
     const update = this.traverse(this.node.update)
 
+    const initLastChunk = init.last()
+
+    if (initLastChunk.getLast().strings) {
+      chunk
+        .add('for (')
+        .children(init.all())
+        .add('; ')
+    } else if (initLastChunk.getLast() === '\n') {
+      initLastChunk.removeLast()
+
+      chunk
+        .add('for (')
+        .children(init.all())
+        .space()
+    }
+
     chunk
-      .add('for (')
-      .children(init.all())
-      .add('; ')
       .children(condition.all())
       .add('; ')
       .children(update.all())

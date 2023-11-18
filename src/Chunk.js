@@ -74,6 +74,10 @@ class Chunk {
     return this
   }
 
+  getLast() {
+    return this.strings[this.strings.length - 1]
+  }
+
   children(array) {
     if (!Array.isArray(array)) {
       throw new Error('Chunk: children argument not an array')
