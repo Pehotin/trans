@@ -1,7 +1,15 @@
-for (this.offset = 0; this.offset < this.subscriptions.length; this.offset += 2) {
+export class Debugger {
+  static startTime
 
-}
+  static log() {
+    console.log(arguments)
+  }
 
-for (let i = 1; i < end; i++) {
+  static timeStart() {
+    Debugger.startTime = Debugger.now()
+  }
 
+  static now() {
+    return ( typeof performance === 'undefined' ? Date : performance ).now()
+  }
 }

@@ -26,7 +26,11 @@ module.exports = class PropertyDefinition extends Node {
 
   _transpileUnsupported(property) {
     const key = this.traverse(this.node.key)
-    const value = this.traverse(this.node.value)
+    let value
+
+    if (this.node.value) {
+      value = this.traverse(this.node.value)
+    }
 
     if (this.node.static) {
       property.addMeta('static')

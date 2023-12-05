@@ -1,4 +1,20 @@
-for (this.offset = 0; this.offset < this.subscriptions.length; this.offset += 2) {
-}
-for (var i = 1; i < end; i++) {
-}
+var Debugger = (function () {
+  function Debugger() {
+  }
+  
+  Debugger.log = function () {
+    console.log(arguments);
+  };
+  Debugger.timeStart = function () {
+    Debugger.startTime = Debugger.now();
+  };
+  Debugger.now = function () {
+    return (typeof performance === 'undefined' ? Date : performance).now();
+  };
+  Debugger.startTime = undefined;
+  
+  return Debugger;
+}());
+
+module.exports.Debugger = Debugger;
+

@@ -8,7 +8,5 @@ Trans.pile(data, {
   returnHelpers: true
 })
 
-console.log(Trans.getHelpers())
-
 //const util = require('util')
 // console.log(util.inspect(ast, false, null, true))
