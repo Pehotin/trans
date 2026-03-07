@@ -1,19 +1,15 @@
 {
-  "name": "@prender-company/trans",
+  "name": "@pehotin/trans",
   "version": "1.0.23",
   "description": "",
   "main": "./src/index.js",
   "scripts": {
-    "play": "node ./playground/index.js",
-    "release": "standard-version && git push --follow-tags && npm publish"
+    "play": "node ./playground/index.js"
   },
-  "author": "Mark P",
+  "author": "Artem P",
   "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/prender-company"
-  },
   "devDependencies": {
-    "@prender-company/parker": "^1.0.3",
+    "@pehotin/parker": "^1.0.3",
     "standard-version": "^9.5.0"
   }
 }
