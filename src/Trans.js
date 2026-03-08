@@ -1,4 +1,4 @@
-const Parker = require('@prender-company/parker')
+const Parker = require('@pehotin/parker')
 const Options = require('./Options')
 const Program = require('./nodes/Program')
 const support = require('./support')
